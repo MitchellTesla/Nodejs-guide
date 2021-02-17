@@ -1,0 +1,102 @@
+Node Package Manger, NPM, is a way to share node_modules with the community.
+
+package.json
+NPM uses a simple JSON file called package.json to share module information.
+
+To create a package.json file in the current folder, just run the the following code.
+
+$npm init 
+This will ask you a few questions such as the name of the module and its version.
+
+Just press enter until the end.
+
+This creates a package.json in the current folder with the name set to the current folder, version set to 0.0.0, and a few other reasonable defaults.
+
+{ 
+    "name": "myData", 
+    "version": "0.0.0", 
+    "description": "", 
+    "main": "index.js", 
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1" 
+    }, 
+    "author": "", 
+    "license": "ISC" 
+} 
+Installing an NPM Package
+Let's install a module, for example, underscore (www.npmjs.org/package/underscore) to a folder.
+
+To download the latest version of underscore, you simply run the following command.
+
+$ npm install underscore 
+
+This will download the latest version of underscore from npmjs.org and put it into node_modules/underscore in the current folder.
+
+To load this module, all you need to do now is make a require('underscore') call.
+
+The following code loads the underscore library and outputs the minimum element of an array to the console.
+
+
+var _ = require('underscore'); 
+console.log(_.min([3, 1, 2])); // 1 
+
+
+Saving Dependencies
+Whenever you run npm install, you have an optional command line flag available --save that tells NPM to write the information about what you installed into package.json.
+
+Do the npm init to create a package file.
+
+$ npm init
+Issue the following command to save information to package.json.
+
+$ npm install underscore --save 
+
+
+If you run install with ?-save, not only will it download underscore into node_modules, it will also update dependencies inside package.json to point to the installed version of underscore.
+
+"dependencies": { 
+    "underscore": "^1.6.0" 
+} 
+By keeping track of dependencies, we know which published version of a particular library we are using.
+
+Refresh the node_modules Folder
+To refresh the node_modules folder from our package.json, we can run the following command:
+
+$ npm install 
+This simply looks at your package.json file and downloads a fresh copy of the dependencies specified in your package.json.
+
+
+
+
+Listing All Dependencies
+To see which packages you have installed, run npm ls command.
+
+$ npm ls 
+...
++-- underscore@1.6.0 
+Removing a Dependency
+To remove a package, use either the npm uninstall or npm rm command, and specify one or more package names.
+
+npm rm underscore --save deletes the underscore folder from node_modules locally and modifies the dependencies section of your package.json.
+
+You can remove global packages by providing the -g option.
+
+The following code shows how to remove the commander module using npm rm.
+
+npm rm commander
+package.json Online Dependency Tracking
+The following code shows Installing a Module with Lots of Dependencies
+
+$ npm install request 
+npm http GET https://registry.npmjs.org/request 
+npm http GET https://registry.npmjs.org/tunnel-agent 
+npm http GET https://registry.npmjs.org/json-stringify-safe 
+...truncated... 
+npm http 304 https://registry.npmjs.org/delayed-stream/0.0.5 
+request@2.34.0 node_modules\request 
++-- aws-sign2@0.5.0 
+...truncated... 
++-- json-stringify-safe@5.0.0 
++-- form-data@0.1.2 (async@0.2.10, combined-stream@0.0.4) 
+NPM not only installed request but also brought down a number of other packages that request depends upon.
+
