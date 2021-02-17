@@ -1,0 +1,152 @@
+npm module dependencies is stored in a configuration file named package.json, located in the project's root directory.
+
+The JSON data in package.json has to follow to a certain schema.
+
+It must have a name and version for your package.
+
+The package's name is specified by the name field. The name should uniquely identify your package in the npm registry.
+
+By using npm, the name becomes part of a URL, a command line argument, and a directory name. Therefore, names cannot begin with a dot or an underscore and cannot include spaces or any other non-URL-safe characters.
+
+A public package must have unique name in the npm registry.
+
+The following code has a Minimal package.json File
+
+{"name": "package-name", "version": "0.0.0"}
+A package's version is specified in the version field. The version, when combined with the name, provides a truly unique identifier for a package.
+
+The version number specifies the major release, minor release, and patch number, separated by dots.
+
+npm allows versions to begin with a v character.
+
+You can specify a build number by appending a tag to the patch number. There are two types of tags, prerelease and postrelease.
+
+Postrelease tags increase the version number, while prerelease tags decrease it.
+
+A postrelease tag is a hyphen followed by a number. All other tags are prerelease tags. The following example shows version tags.
+
+0.9.6-7
+0.9.6-7-beta
+0.9.6-6
+0.9.6
+0.9.6beta
+
+
+
+Description and Keywords
+The description field provides a textual description of your package.
+
+The keywords field provides an array of keywords to describe your package.
+
+The following code shows a package.json containing description and keywords fields.
+
+"description": "This is a description of  the   module", 
+"keywords": ["foo", "search", "baz"]
+Author and Contributors
+The primary author is specified in the author field, which can contain only one entry.
+
+The field contributors can contain an array of people.
+
+There are two ways to specify a person.
+
+"author":  {"name":  "Your Name",  
+            "email":  "name@java2s.com", 
+            "url":  "http://www.java2s.com"},
+"contributors": [{"name":  "Name 1", 
+                  "email": "n@java2s.com", 
+                  "url": "http://www.java2s.com"},
+                {"name":  "Name 2", 
+                 "email": "m@java2s.com", 
+                 "url": "http://www.java2s.com"
+                }
+                ]
+
+
+or
+
+"author": "Your Name <name@java2s.com> (http://www.java2s.com)", 
+"contributors": ["Name 1 <n@java2s.com> (http://www.java2s.com)", 
+                 "Name 2 <m@java2s.com> (http://www.java2s.com)"]
+
+
+Main Entry Point
+Package main entry point file is stored in the package.json file.
+
+The main field tells Node which file to load when using require().
+
+To set main entry point to a file named bar.js located in the src subdirectory.
+
+"main": "./src/bar.js"
+preferGlobal Setting
+To alert users to install packages globally, use preferGlobal Setting
+
+Dependencies
+Package dependencies are specified in the dependencies field of the package.json file.
+
+The version string can be any version expression understood by npm, including git and tarball URLs.
+
+The following code sets a dependencies field for a package depending only on commander.
+
+"dependencies": { "commander": "1.2.x"}
+Developmental Dependencies
+To include packages dependencies used only for testing and development, use devDependencies field.
+
+"devDependencies": { "mocha": "~1.8.1"}
+Developmental dependencies can be automatically added to the package.json file.
+
+To do so, append the --save-dev flag to the npm install command.
+
+npm install mocha --save-dev
+Optional Dependencies
+With optional dependencies, npm will proceed despite their absence.
+
+The optional dependencies are listed in the optionalDependencies field.
+
+Optional dependencies can be added to the package.json file during installation by specifying the --save-optional flag to npm install.
+
+To load optional packages use try...catch and if statements.
+
+The following code assumes that commander is an optional dependency.
+
+require() function throws an exception if commander is not present, so wrapped it in a try...catch statement.
+
+Later, check if commander has a defined value before using it.
+
+var commander;
+
+try  {
+   commander = require("commander");
+} catch (exception)  {
+   commander = null;
+}
+
+if (commander)  {
+   // do  something with  commander
+}
+
+Engines
+The engines field specifies the versions of node and npm for your module.
+
+"engines": {"node": ">=0.10.12", "npm": "1.2.x"}
+Scripts
+The scripts field, when present, contains a mapping of npm commands to script commands.
+
+The script commands are run in an external shell process. They can be any executable commands.
+
+Two of the most common commands are start and test.
+
+The start command launches your application, and test runs one or more of your application's test scripts.
+
+"scripts": {
+    "start": "node  server.js",
+    "test": "echo  \"message\" &&   exit  1"
+}
+
+To execute the start and test commands, simply pass the command name to npm.
+
+$ npm test
+Additional Fields
+You can list your project's home page in the homepage field, the software license type in the license field, and the repository for your project's source code in the repository field.
+
+For more information on the package.json file, issue the command npm help json
+
