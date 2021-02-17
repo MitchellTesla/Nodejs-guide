@@ -1,0 +1,73 @@
+To create our own streams, inherit from the stream class and implement a few base methods listed in the following table.
+
+Use-case	Class	Method(s) to Implement
+Reading only	Readable	_read
+Writing only	Writable	_write
+Reading and writing	Duplex	_read, _write
+Operate on read data and write the result	Transform	_transform, _flush
+Creating a Readable Stream
+We can inherit from Readable class, implement the _read member in your class.
+
+The method is called by the stream API internally when someone requests data to be read.
+
+To pass data on, call the inherited member function push passing in the data.
+
+If you call push(null), this signals the end of the read stream.
+
+The following code shows how to create a readable stream and return 1-10.
+
+If you run this, you will see all these numbers printed.
+
+
+var Readable = require('stream').Readable; 
+var util = require('util'); 
+/*  w w  w  .j  ava  2 s.  co m*/
+function Counter() { 
+    Readable.call(this); 
+    this._max = 10; 
+    this._index = 1; 
+} 
+util.inherits(Counter, Readable); 
+
+Counter.prototype._read = function () { 
+    var i = this._index++; 
+    if (i > this._max)
+        this.push(null);
+    else { 
+        var str = ' ' + i; 
+        this.push(str);
+    } 
+}; 
+// Usage, same as any other readable stream 
+var counter = new Counter(); 
+counter.pipe(process.stdout); 
+
+
+
+ 
+
+Creating a Writable Stream
+You inherit from the Writable class and implement the _write method.
+
+The _write method is passed in a chunk that needs processing as its first argument.
+
+The following code creates a simple writable stream that logs to the console all the data passed in.
+
+
+var Writable = require('stream').Writable; 
+var util = require('util'); 
+/*from w w w. j  a v  a 2 s  .  co  m*/
+function Logger() {
+     Writable.call(this); 
+} 
+util.inherits(Logger, Writable); 
+
+Logger.prototype._write = function (chunk) {
+     console.log(chunk.toString()); 
+}; 
+
+// Usage, same as any other Writable stream 
+var logger = new Logger(); 
+
+var readStream = require('fs').createReadStream('log.txt'); 
+readStream.pipe(logger); 
