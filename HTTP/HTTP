@@ -1,0 +1,82 @@
+Following are the main core networking modules for creating web applications in Node.js:
+
+
+net / require('net')            the foundation for creating TCP server and clients 
+dgram / require('dgram')        functionality for creating UDP / Datagram sockets 
+http / require('http')          a high-performing foundation for an HTTP stack 
+https / require('https')        an API for creating TLS / SSL clients and servers 
+The http module has a function, createServer, which takes a callback and returns an HTTP server.
+
+On each client request, the callback is passed in two arguments-the incoming request stream and an outgoing server response stream.
+
+To start the returned HTTP server, call its listen function passing in the port number.
+
+
+
+
+ 
+
+Example
+The following code provides a simple server that listens on port 3000 and simply returns "hello client!" on every HTTP request.
+
+
+var http = require('http'); 
+//from   ww  w. j  ava2 s  .  com
+var server = http.createServer(function (request, response) { 
+    console.log('request starting...');
+     // respond 
+    response.write('hello client!'); 
+    response.end(); 
+}); 
+server.listen(3000); 
+console.log('Server running at http://127.0.0.1:3000/'); 
+To test the server, simply start the server using Node.js.
+
+$ node 1raw.js 
+Server running at http://127.0.0.1:3000/ 
+Then test an HTTP connection using curl in a new window.
+
+$ curl http://127.0.0.1:3000 
+hello client! 
+To exit the server, simply press Ctrl+C in the window where the server was started.
+
+
+
+
+ 
+
+Inspecting Headers
+The request sent by curl contained a few important HTTP headers.
+
+To see these, let's modify the server to log the headers received in the client request.
+
+
+var http = require('http'); 
+//w  w  w  .  j  ava 2 s.c o m
+var server = http.createServer(function (req, res) { 
+    console.log('request headers...'); 
+    console.log(req.headers);
+     // respond 
+    res.write('hello client!'); 
+    res.end(); 
+}).listen(3000); 
+console.log('server running on port 3000'); 
+Now start the server.
+
+We will ask curl to log out the server response headers using the -i option.
+
+$ curl http://127.0.0.1:3000 -i 
+HTTP/1.1 200 OK 
+Date: Thu, 22 May 2014 11:57:28 GMT 
+Connection: keep-alive 
+Transfer-Encoding: chunked 
+
+hello client! 
+As you can see, req.headers is a simple JavaScript object literal. You can access any header using req['header-name'].
+
+Setting the Status Code
+By default, the status code is going to be 200 OK.
+
+As long as the headers are not sent, you can explicitly set the status code using the statusCode response member.
+
+response.statusCode = 404; 
