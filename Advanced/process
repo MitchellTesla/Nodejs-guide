@@ -1,0 +1,35 @@
+process is one of the most important globals provided by Node.js.
+
+It has useful member functions and properties.
+
+It is a source of a few critical events.
+
+Command Line Arguments
+We use the process object to access the command line arguments.
+
+The arguments are available as the process.argv member property, which is an array.
+
+The first element is the node executable, and the second element is the name of the JavaScript file passed into Node.js to start the process, and the remaining elements are the command line arguments.
+
+The following code shows argv.js, which simply logs these out to the console.
+
+
+// argv.js 
+console.log(process.argv); 
+
+
+process.nextTick
+process.nextTick is a simple function that takes a callback function.
+
+It is used to put the callback into the next cycle of the Node.js event loop.
+
+It is designed to be highly efficient, and it is used by a number of Node.js core libraries.
+
+The following code shows how to use process.nextTick.
+
+
+// nexttick.js 
+process.nextTick(function () {
+   console.log('next tick'); 
+}); 
+console.log('immediate'); 
