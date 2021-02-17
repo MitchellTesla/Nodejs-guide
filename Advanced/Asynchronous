@@ -1,0 +1,101 @@
+The following code shows how Node.js handls the nonblocking, asynchronous model.
+
+setTimeout() function takes a function to call and a timeout after which it should be called:
+
+
+setTimeout(function () {
+    console.log("done");
+}, 2000);
+
+console.log("waiting");
+
+The program sets the timeout for 2000ms (2s), and then continues with execution, which prints out the "waiting" text.
+
+In Node.js, to call a function that needs to wait for some external resource, instead of calling fopen(path, mode) and waiting, we should call fopen(path, mode, function callback(file_handle) { ... }).
+
+
+
+Example
+The following code asynchronous functions.
+
+
+var fs = require('fs');
+/*  w ww .ja v a2s.c  om*/
+fs.open(
+     'a.js', 'r',
+      function  (err, handle) {
+         var buf = new Buffer(100000);
+         fs.read(
+             handle, buf, 0, 100000, null,
+              function  (err, length) {
+                 console.log(buf.toString('utf8', 0, length));
+                 fs.close(handle, function () { /* don't care */ });
+             }
+         );
+     }
+);
+
+
+
+
+Note
+The require function is a way to include additional functionality in your Node.js programs.
+
+callback asynchronous functions has at least one parameter, the success or failure status of the last operation. It commonly has a second parameter which has additional results or information from the last operation.
+
+
+do_something(param1, param2, ..., paramN,  function (err, results)  { ... });
+For example,
+
+
+fs.open(//  w w  w . j a  v  a 2 s.  c o  m
+     'a.js', 'r',
+     function (err, handle) {
+          if (err) {
+              console.log("ERROR: " + err.code + " (" + err.message ")");
+              return;
+          }
+         // success!! continue working here
+     }
+);
+In this style, you check for errors, or continue to process the result. And now here's the other way:
+
+
+fs.open(//  w  w  w. j  a va 2 s.  co  m
+     'a.hs', 'r',
+     function (err, handle) {
+          if (err) {
+              console.log("ERROR: " + err.code + " (" + err.message ")");
+          } else {
+             // success! continue working here
+          }
+      }
+);
+The following code shows how to read a file with error handler.
+
+
+var fs = require('fs');
+//  w w  w. j a v a  2s .  c o  m
+fs.open(
+    'a.js', 'r',
+     function  (err, handle) {
+        if (err) {
+            console.log("ERROR: " + err.code + " (" + err.message + ")");
+            return;
+        }
+        var buf = new Buffer(100000);
+        fs.read(
+            handle, buf, 0, 100000, null, function  (err, length) {
+                if (err) {
+                    console.log("ERROR: " + err.code + " (" + err.message + ")");
+                    return;
+                }
+                console.log(buf.toString('utf8', 0, length));
+                fs.close(handle, function () { /* don't care */ });
+            }
+        );
+    }
+);
+
+
+
