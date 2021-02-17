@@ -1,0 +1,38 @@
+setTimeout
+setTimeout sets up a function to be called after a specified delay in milliseconds.
+
+The following code shows a quick example of setTimeout, which calls a function after 1,000 milliseconds (one second).
+
+
+setTimeout(function () {
+    console.log('timeout completed'); 
+}, 1000); 
+setInterval
+Similar to the setTimeout function is the setInterval function.
+
+setTimeout only executes the callback function once after the specified duration.
+
+setInterval calls the callback repeatedly after every passing of the specified duration.
+
+The following code prints out second passed after every second.
+
+
+setInterval(function () { 
+    console.log('second passed'); 
+}, 1000);
+
+Note
+Both setTimeout and setInterval return an object that can be used to clear the timeout/interval using the clearTimeout/clearInterval functions.
+
+The following code demonstrates how to use clearInterval to call a function after every second for five seconds, and then clear the interval after which the application will exit.
+
+
+var count = 0; 
+var intervalObject = setInterval(function () { 
+        count++; 
+        console.log(count, 'seconds passed'); 
+        if (count == 5) { 
+            console.log('exiting'); 
+            clearInterval(intervalObject); 
+        } 
+    }, 1000);
