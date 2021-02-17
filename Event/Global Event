@@ -1,0 +1,57 @@
+Global Exception Handler
+Any global unhandled exceptions can be intercepted by listening on the `uncaughtException` event on process.
+
+To log the error for your convenience and exit the process with an error code.
+
+
+process.on('uncaughtException', function (err) {
+   console.log('Caught exception: ', err);
+   console.log('Stack:', err.stack); 
+   process.exit(1); 
+
+}); 
+// Intentionally cause an exception, but don't try/catch it. 
+nonexistentFunc(); 
+console.log('This line will not run.'); 
+The `uncaughtError` event is also raised on a process if any event emitter raises the `error` event and there are no listeners subscribed to the event emitter for this event.
+
+
+
+
+ 
+
+Exit
+The exit event is emitted when the process is about to exit.
+
+There is no way to abort exiting at this point. The event loop is already in teardown so you cannot do any async operations at this point.
+
+
+process.on('exit', function (code) {
+    console.log('Exiting with code:', code); 
+}); 
+
+process.exit(1); 
+The event callback is passed in the exit code that the process is exiting with.
+
+This event is mostly useful for debugging and logging purposes.
+
+
+
+
+ 
+
+Signals
+Node.js process object also supports the UNIX concept of signals, which is a form of inter-process communication.
+
+To handle Ctrl+C key combination in the terminal, add listener subscribed to the SIGINT (signal interrupt) event, the listener is called and you can choose if you want to exit the process (process.exit) or continue execution.
+
+The following code handles the Control-C event and chose to continue running and exit after five seconds.
+
+
+setTimeout(function () {
+    console.log('5 seconds passed. Exiting'); 
+}, 5000); 
+console.log('Started. Will exit in 5 seconds'); 
+process.on('SIGINT', function () {
+    console.log('Got SIGINT. Ignoring.'); 
+}); 
