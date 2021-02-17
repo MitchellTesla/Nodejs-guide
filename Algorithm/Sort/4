@@ -1,0 +1,28 @@
+function quickSort(arr, begin) {
+  var len = arr.length || 0
+  if(len <= 1)
+    return arr/*from w  w w.  j  av  a2  s.c  o  m*/
+  var pivot = arr[0]
+  var left = []
+  var right = []
+  for(var i = 1; i < len; i++) {
+    if(arr[i] >= pivot)
+      right.push(arr[i])
+    else
+      left.push(arr[i])
+  }
+  left.push(pivot)
+
+  var leftLen = left.length
+  var arg = [].concat(begin, leftLen, left)
+  Array.prototype.splice.apply(list, arg)
+  var rightLen = right.length
+  arg = [].concat(leftLen + begin, rightLen, right)
+  Array.prototype.splice.apply(list, arg)
+
+  step.push(cloneArr(list))
+
+  return quickSort(left, begin).concat(quickSort(right, leftLen + begin))
+}
+
+quickSort(list, 0)
