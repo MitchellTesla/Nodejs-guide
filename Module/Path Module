@@ -1,0 +1,59 @@
+Use require('path') to load Path module.
+
+The path module has functions that works with the file/path string.
+
+For example, path.join uses the forward slash / on UNIX-based systems like Mac OS X vs. backward slash \\ on Windows systems.
+
+path.normalize(str)
+This function fixes up slashes to be OS specific, takes care of . and .. in the path, and also removes duplicate slashes.
+
+
+var path = require('path'); 
+/*  w ww .j  a v  a 2 s  .c  o  m*/
+// Fixes up .. and . 
+// logs on Unix: /myData 
+// logs on Windows: \myData 
+console.log(path.normalize('/myData/myValue/..')); 
+
+// Also removes duplicate '//' slashes 
+// logs on Unix: /myData/myValue 
+// logs on Windows: \myData\myValue 
+console.log(path.normalize('/myData//myValue/bas/..')); 
+
+
+path.join([str1], [str2], ...)
+This function joins any number of paths together, taking into account the operating system.
+
+
+var path = require('path'); 
+
+// logs on Unix: myData/myValue/bas 
+// logs on Windows: myData\myValue\bas 
+console.log(path.join('myData', '/myValue', 'bas'));
+
+
+This function joins any number of paths together, taking into account the operating system.
+
+
+var path = require('path'); 
+
+// logs on Unix: myData/myValue/bas 
+// logs on Windows: myData\myValue\bas 
+console.log(path.join('myData', '/myValue', 'bas')); 
+
+
+dirname, basename, and extname
+path.dirname gives you the directory portion of a specific path string (OS independent).
+
+path.basename returns the name of the file.
+
+path.extname gives you the file extension.
+
+
+var path = require('path'); 
+
+var completePath = '/myData/myValue/bas.html'; 
+
+console.log(path.dirname(completePath)); 
+console.log(path.basename(completePath)); 
+console.log(path.extname(completePath)); 
