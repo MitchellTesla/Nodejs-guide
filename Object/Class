@@ -1,0 +1,105 @@
+Javascript classes are all declared as functions:
+
+
+function Shape () {/*from  ww  w  .j a v  a 2  s. co  m*/
+    this.X = 0;
+    this.Y = 0;
+
+    this.move = function (x, y) {
+        this.X = x;
+        this.Y = y;
+    }
+    this.distance_from_origin = function () {
+        return Math.sqrt(this.X*this.X + this.Y*this.Y);
+    }
+}
+
+var s = new Shape();
+s.move(10, 10);
+console.log(s.distance_from_origin());
+You can add as many properties and methods to your classes, at any time:
+
+
+var s = new Shape(15, 35);
+s.FillColour = "red";
+The function that declares the class is its constructor!
+
+Prototypes and Inheritance
+By default, all objects in JavaScript have a prototype object.
+
+The prototype object is the mechanism through which they inherit properties and methods.
+
+The following code shows how to use prototype to create Inheritance.
+
+Change the Shape class so that all inheriting objects also get the X and Y properties, as well as the methods you have declared on it:
+
+
+function Shape () {//  www .  j ava 2 s. c  o  m
+}
+
+Shape.prototype.X = 0;
+Shape.prototype.Y = 0;
+
+Shape.prototype.move = function (x, y) {
+     this.X = x;
+     this.Y = y;
+}
+Shape.prototype.distance_from_origin = function () {
+     return Math.sqrt(this.X*this.X + this.Y*this.Y);
+}
+Shape.prototype.area = function () {
+     throw new Error("I don't have a form yet");
+}
+var s = new Shape();
+s.move(10, 10);
+console.log(s.distance_from_origin());
+
+function Square() {
+}
+
+Square.prototype = new Shape();
+Square.prototype.__proto__ = Shape.prototype;
+Square.prototype.Width = 0;
+
+Square.prototype.area = function () {
+   return this.Width * this.Width;
+}
+var sq = new Square();
+sq.move(-5, -5);
+sq.Width = 5;
+console.log(sq.area());
+console.log(sq.distance_from_origin());
+
+
+You can further extend things with a new class called Rectangle , inheriting from the Square class:
+
+
+function Rectangle () {/*  w  w  w.  j  a  v a2  s .  co  m*/
+}
+
+Rectangle.prototype = new Square();
+Rectangle.prototype.__proto__ = Square.prototype;
+Rectangle.prototype.Height = 0;
+
+Rectangle.prototype.area = function () {
+   return this.Width * this.Height;
+}
+
+var re = new Rectangle();
+re.move(25, 25);
+re.Width = 10;
+re.Height = 5;
+console.log(re.area());
+console.log(re.distance_from_origin());
+We can use the operator instanceof to check the inheritance.
+
+
+console.log(sq instanceof Square);      // true
+console.log(sq instanceof Shape);       // true
+console.log(sq instanceof Rectangle);   // false
+console.log(re instanceof Rectangle);   // true
+console.log(sq instanceof Square);      // true
+console.log(sq instanceof Shape);       // true
+console.log(sq instanceof Date);        // false
+
+
