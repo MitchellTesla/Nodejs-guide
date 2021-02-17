@@ -1,0 +1,129 @@
+In Node.js we can manipulate Binary Data with Buffers.
+
+When working with streams and files, we work mostly with the Buffer class.
+
+Buffer hold binary data that can be converted into other formats, used in operations to file writes, or broken apart and reassembled.
+
+Buffer's length property does not return the size of the content, but that of the buffer itself!
+
+To work with TCP streams and the file system, the developers added native and fast support to handle binary data. The developers did this in Node.js using the Buffer class, which is available globally.
+
+Example
+For example:
+
+
+var b = new Buffer(10000);
+var str = "                         ";
+b.write(str); // default is utf8, which is what we want
+console.log( b.length ); // will print 10000 still!
+
+The following code returns the byteLength:
+
+
+var b = new Buffer(10000);
+var str = "                         ";
+b.write(str); // default is utf8, which is what we want
+
+console.log( str.length );                 // prints 5
+console.log( Buffer.byteLength(str) );     // prints 15
+
+
+Encoding
+Node.js supports all the popular encoding formats like ASCII, UTF-8, and UTF-16.
+
+To convert strings to buffers, call the Buffer class constructor passing in a string and an encoding.
+
+Call the Buffer instance's toString method and pass in an encoding scheme to convert buffer to string.
+
+
+// a string /*w  w w . j  a va2  s.c  o  m*/
+var str = "Hello World from java2s.com"; 
+
+// From string to buffer 
+var buffer = new Buffer(str, 'utf-8'); 
+
+// From buffer to string 
+var roundTrip = buffer.toString('utf-8'); 
+console.log(roundTrip); // Hello 
+
+Note
+To convert a buffer to a string, use the toString method.
+
+
+var b = new Buffer(100);
+var str = "this is a test";
+b.write(str); // default is utf8, which is what we want
+
+console.log(b.toString('utf8'));
+To append one buffer to the end of another, you can use the concat method, as follows:
+
+
+var b1 = new Buffer("My name is ");
+var b2 = new Buffer("java2s.com");
+var b3 = Buffer.concat([ b1, b2 ]);
+console.log(b3.toString('utf8'));
+The code above generates the following result.
+
+
+We can fill in all the values in the buffer by using the fill method, such as buf.fill("\0").
+
+buf.fill("\0") zero out the buffer.
+
+Serving Static Files in a Web Server with Buffers
+The following code shows how to create a web server that serves up static content (an HTML file) using Node buffers.
+
+
+function handle_incoming_request (req, res) {
+    if (req.method.toLowerCase() == 'get' && req.url.substring(0, 9) == '/content/') {
+        serve_static_file(req.url.substring(9), res);
+    } else {/*from w w  w  .  j av  a 2 s . c o m*/
+        res.writeHead(404, { "Content-Type" : "application/json" });
+        var out = { error: "not_found",message: "'" + req.url + "' not found" };
+        res.end(JSON.stringify(out) + "\n");
+    }
+}
+function  content_type_for_path (file) {
+    return "text/html";
+}
+
+var http = require('http'),
+    fs = require('fs');
+
+var s = http.createServer(handle_incoming_request);
+s.listen(8080);
+Create a file called test.html with the following HTML content.
+
+
+
+  
+
+
+  
+ Hello World! 
+
+
+
+
+then run the server with
+
+node server.js
+And then ask for that test.html using curl :
+
+curl -i -X GET http://localhost:8080/content/test.html
+
+You should see output similar to the following:
+
+HTTP/1.1 200 OK
+Date: Mon, 26 Nov 2012 03:13:50 GMT
+Connection: keep-alive
+Transfer-Encoding: chunked
+
+
+
+  
+
+
+  
+ Hello World! 
+
+
