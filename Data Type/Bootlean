@@ -1,0 +1,45 @@
+The boolean type Values in JavaScript can either be true or false.
+
+Two literals are defined for boolean values: true and false.
+
+We can convert values to boolean with the Boolean function, and the language converts everything to boolean when needed, according to the following rules:
+
+false, 0 , empty strings "", NaN , null , and undefined all evaluate to false .
+
+All other values evaluate to true .
+
+Example
+
+console.log(0 == false);/*from   ww  w. j  a va  2 s .com*/
+console.log("" == false);
+if(null){
+}else{
+   console.log("false");
+}
+if(undefined){
+}else{
+   console.log("false");
+}
+if(NaN){
+}else{
+   console.log("false");
+}
+
+
+Example 2
+We can assign these to variables and apply boolean operations to them.
+
+
+var myData = true; 
+console.log(myData); // true 
+/*from   w  w  w  .  java  2s .  co  m*/
+// Boolean operations (&&, ||, !) work as expected: 
+console.log(true && true); // true 
+console.log(true && false); // false 
+console.log(true || false); // true 
+console.log(false || false); // false 
+console.log(!true); // false 
+console.log(!false); // true 
+
+
+
