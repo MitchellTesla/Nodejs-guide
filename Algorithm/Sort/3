@@ -1,0 +1,6 @@
+Array.prototype.mySort = function() {
+  this.sort(function(a, b) {
+    return a - b;
+  });//from  w w  w.j  a v  a2  s . co  m
+  return this;
+};
