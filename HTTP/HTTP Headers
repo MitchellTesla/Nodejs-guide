@@ -1,0 +1,64 @@
+Setting Headers
+You can explicitly queue any HTTP header in the response using the response.setHeader(name, value).
+
+Content-Type in the response is the header we can set to inform how client would interpret the data from the server.
+
+For example, if you are sending down an HTML file to the client, you should set the Content-Type to text/html, which you can with the following code:
+
+response.setHeader("Content-Type", "text/html"); 
+The formal name for the value of the Content-Type header is called MIME type.
+
+MIME types for a few key content types are shown in the following Table.
+
+Name	MIME type
+HyperText Markup Language (HTML)	text/html
+Cascading Style Sheets (CSS)	text/css
+JavaScript	application/javascript
+JavaScript Object Notation (JSON)	application/json
+JPEG Image	image/jpeg
+Portable Network Graphics (PNG)	image/png
+There is a NPM package called mime (npm install mime), which you can use to get the official mime type from a file extension.
+
+The following table shows how you can use it.
+
+
+var mime = require('mime'); 
+mime.lookup('/path/to/file.txt'); // => 'text/plain' 
+mime.lookup('file.txt'); // => 'text/plain' 
+mime.lookup('.TXT'); // => 'text/plain' 
+mime.lookup('htm'); // => 'text/html' 
+
+You can get a header that's queued for sending using the response.getHeader function:
+
+var contentType = response.getHeader('content-type'); 
+You can remove a header from the queue using the response.removeHeader function:
+
+response.removeHeader('Content-Encoding'); 
+
+
+
+ 
+
+Send Headers Only
+To explicitly send the headers and move the response into body only mode, call the response.writeHead member function.
+
+response.writeHead member function takes the status code and optional headers that will be added to any headers queued using response.setHeader.
+
+The following code shows how to set the status code to 200 and sets the Content-Type header for serving HTML:
+
+response.writeHead(200, { 'Content-Type': 'text/html' }); 
+Key Members of the Request Stream
+The request is also a readable stream.
+
+This is useful when the client wants to stream data to the server, for example, file upload.
+
+The client HTTP request is split into a head and body part.
+
+We can get useful information about the client request HTTP head.
+
+The request.headers property is a JavaScript Object Literal of header names and values.
+
+console.log(request.headers); 
+To check an individual header, index this object like any other JavaScript object literal:
+
+console.log(request.headers['user-agent']); // 'curl/7.30.0' 
