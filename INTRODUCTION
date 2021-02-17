@@ -1,0 +1,108 @@
+Node.js is a platform for writing network and web applications.
+
+Node.js is built around an event-driven nonblocking model of programming.
+
+Running Node.js and "Hello World!"
+
+Create a file called hello.js:
+
+
+/**
+  * comment.
+  */
+console.log("Hello World!");
+Now, we can execute this file from the command line with
+
+node hello.js
+And you should see this output:
+
+Hello World!
+Variables
+Variables are defined in JavaScript using the var keyword.
+
+
+
+For example, the following code segment creates a variable foo and logs it to the console.
+
+
+var myData = 123; 
+console.log(myData);
+The code above generates the following result.
+
+
+The JavaScript runtime has the opportunity to define a few global variables that we can use in our code.
+
+One of them is the console object.
+
+The console object contains a member function (log), which takes any number of arguments and prints them to the console.
+
+
+
+
+ 
+
+First Web Server
+Enter and save the following into a file called web.js :
+
+
+var http = require("http");
+/*from   www .j  a  v  a2  s.  com*/
+function process_request(req, res) {
+     var body = 'Thanks for calling!\n';
+     var content_length =  body.length ;
+     res.writeHead(200, {
+         'Content-Length': content_length,
+         'Content-Type': 'text/plain'
+     });
+     res.end(body);
+}
+var s = http.createServer(process_request);
+s.listen(8080);
+To run it, simply type
+
+node web.js
+Your computer now has a web server running on port 8080.
+
+We can type http://localhost:8080 into a web browser.
+
+or use
+
+curl -i http://localhost:8080
+You should now see something similar to the following:
+
+HTTP/1.1 200 OK
+Content-Length: 20
+Content-Type: text/plain
+Date: Tue, 15 Feb 2013 03:05:08 GMT
+Connection: keep-alive
+
+Thanks for calling!
+
+
+
+ 
+
+curl
+We can download the Windows binaries for curl by visiting http://curl.haxx.se/download.html and looking there for the "Win32 - Generic" section.
+
+Download one of the highlighted binaries, preferably one with support for SSL and SSH, unpack it, and put curl.exe somewhere in your PATH or user directory.
+
+To launch it, in the command prompt or PowerShell, just type
+
+C:\Users\abc\curl --help
+Wget
+wget is a great alternative for curl.
+
+We can download it from http://users.ugent.be/~bpuype/wget/.
+
+To learn more, view the help:
+
+C:\Users\abc\wget  --help
+Note
+To stop the server from running, you simply press Ctrl+C.
+
+It is smart enough to clean up everything and shut down properly.
+
+To debug, just add the debug flag before the name of your program:
+
+node debug web.js
