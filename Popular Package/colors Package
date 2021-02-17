@@ -1,0 +1,19 @@
+Customizing Console Colors
+Syntax highlighting helps you manage code complexity.
+
+The colors package (npm install colors) brings a similar benefit to your console output, making it easier to follow what is going on.
+
+It is also one of the most used NPM packages.
+
+It adds functions to the native JavaScript string so that you can do things such as "some string".red.
+
+Example
+
+// Loading this module modifies String for the entire process 
+require('colors'); 
+
+console.log('hello'.green); // outputs green text 
+console.log('world!'.red); // outputs red text 
+console.log('Feeling yellow'.yellow); // outputs yellow text 
+console.log('But you look blue'.blue); // outputs yellow text 
+console.log('This should cheer you up!'.rainbow); // rainbow 
