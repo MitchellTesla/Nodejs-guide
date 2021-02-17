@@ -1,0 +1,126 @@
+Conditionally Load a Module
+require behaves just like any other function in JavaScript.
+
+We can call require() based on some condition and load the module only if you need it.
+
+
+if(iReallyNeedThisModule){ 
+    var myData = require('./myData'); 
+} 
+Blocking
+The require function blocks further code execution until the module has been loaded.
+
+The code following the require() call is not executed until the module has been loaded and executed.
+
+
+// Blocks execution till module is loaded 
+var myData = require('./myData'); 
+
+// Continue execution after it is loaded 
+console.log('loaded myData'); 
+myData(); 
+
+Node.js require Function
+The Node.js require function is the main way of importing a module into the current file.
+
+There are three kinds of modules in Node.js: core modules, file modules, and external node_modules.
+
+When we make a require call with a relative path-for example, something like require('./filename') or require('../foldername/filename'), Node.js runs the destination JavaScript file in a new scope and returns the final value assigned to module.exports in that file.
+
+Using the require function only gives you the module.exports variable, and you need to assign the result to a variable locally in order to use it in scope.
+
+
+var yourChoiceOfLocalName = require('./myFile'); 
+
+
+
+Cached
+After the first time a require call is made to a particular file, the module.exports is cached.
+
+
+var t1 = new Date().getTime(); 
+var myData1 = require('./myData'); 
+console.log(new Date().getTime() - t1); // longer
+
+var t2 = new Date().getTime(); 
+var myData2 = require('./myData'); 
+console.log(new Date().getTime() - t2); // shorter
+
+Shared State
+Sharing state between modules is useful in various contexts.
+
+
+This allows you to share in-memory objects between modules.
+In the c:/intro/shared/myData.js we have
+
+
+module.exports = { 
+    something: 123 
+}; 
+In c:/intro/shared/app.js we have
+
+
+var myData = require('./myData'); 
+console.log('initial something:', myData.something); // 123 
+
+// Now modify something: 
+myData.something = 456; 
+
+// Now load myValue: 
+var bas = require('./myValue'); 
+In c:/intro/shared/myAnother.js we have
+
+
+var myData = require('./myData'); 
+console.log('in another module:', myData.something); // 456 
+
+Object Factories
+The same object is returned each time a require call resolves to the same file in a Node.js process.
+
+To create new object for each require function call, export a function from the source module that returns a new object.
+
+Then require the module at your destination and call this imported function to create a new object.
+
+In c:/intro/factory/myData.js file we have
+
+
+module.exports = function () { 
+    return { 
+        something: 123 
+    }; 
+}; 
+In c:/intro/factory/app.js we have
+
+
+var myData = require('./myData'); 
+// create a new object 
+var obj = myData(); 
+
+// use it 
+console.log(obj.something); // 123 
+
+We can even do this in one step
+
+ 
+require('./myData')();
+Core Modules
+Core modules are modules compiled into the Node binary.
+
+Core modules have the highest precedence in require(). In case of module-naming conflict, the core module is loaded.
+
+For example, Node contains a core module named http. A call to require("http") will always load the core http module.
+
+The core modules are located in the lib directory of the Node source code.
+
+Resolving a Module Location
+To find out where a package is located, use the require.resolve() function. It returns the path to the module.
+
+If the module name passed to resolve() is a core module, the module's name is returned.
+
+If the module is a file module, resolve() returns the module's file name.
+
+If the Node cannot locate the specified module, an error is thrown.
+
+The following example shows usage of resolve() in the REPL environment.
+
+require.resolve("http");
