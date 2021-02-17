@@ -1,0 +1,196 @@
+Functions that return objects are a great way to create similar objects.
+
+Example
+The following code shows how to create an object using this pattern.
+
+
+function Message() {//from   w  ww. ja  va2  s  .c om
+   var message = 'hello';
+   function setMessage(newMessage) {
+      if (!newMessage) 
+         throw new Error('cannot set empty message');
+      message = newMessage;
+   }
+   function getMessage() {
+      return message;
+   }
+   function printMessage() { 
+      console.log(message); 
+   }
+   return {
+      setMessage: setMessage,
+      getMessage: getMessage,
+      printMessage: printMessage
+   }; 
+} 
+// Pattern in use 
+var hi1 = Message(); 
+hi1.printMessage(); // hello 
+
+var hi2 = Message(); 
+hi2.setMessage('hi'); 
+hi2.printMessage(); // hi 
+
+hi1.printMessage(); // hello
+
+
+Understanding this
+Javascript this object behaves differently depending upon how we call it.
+
+this object refers to the calling context.
+
+The calling context is the prefix used to call a function.
+
+
+var myData = { 
+   myValue: 123, 
+   myFunction: function () {
+      console.log('inside this.myValue is:', this.myValue); 
+   } 
+} 
+console.log('myData.myValue is: ', myData.myValue); // myData.myValue is: 123 
+myData.myFunction(); // inside this.myValue is: 123 
+
+The default calling context is the Node.js global variable.
+
+
+function myData() {
+    console.log('is this called from globals? : ', this === global); // true 
+} 
+myData(); 
+We can attach a function to any object and change the calling context.
+
+
+var myData = { 
+    myValue: 123 /*w  w w.j a va 2s.  com*/
+}; 
+
+function myFunction() { 
+    if (this === global) 
+        console.log('called from global'); 
+    if (this === myData) 
+        console.log('called from myData'); 
+} 
+
+// global context 
+myFunction(); // called from global 
+
+// from myData 
+myData.myFunction = myFunction; 
+myData.myFunction(); // called from myData 
+
+If you call a function with the new JavaScript operator, it creates a new JavaScript object and this within the function refers to this newly created object.
+
+
+function myData() {//  w  ww  . j a  v  a2  s  . c  om
+   this.myData = 123;
+   console.log('Is this global?: ', this == global); 
+} 
+
+// without the new operator 
+myData(); // Is this global?: true 
+console.log(global.myData); // 123 
+
+// with the new operator 
+var newFoo = new myData(); // Is this global?: false 
+console.log(newFoo.myData); // 123 
+
+In the code above we modified this.myData inside the function and newFoo.myData was set to that value.
+
+
+Understanding Prototype
+Every object in JavaScript has an internal link to another object called the prototype.
+
+When you read a property on an object, myData.myValue reads the property myValue from myData, JavaScript checks that this property exists on myData.
+
+If not, JavaScript checks if the property exists on myData.__proto__ and so on till __proto__ itself is not present.
+
+If a value is found at any level, it is returned.
+
+Otherwise, JavaScript returns undefined.
+
+
+var shape = {}; 
+shape.__proto__.myValue= 123; 
+console.log(shape.myValue); // 123 
+
+__ prefix in JavaScript is should not be used by user code.
+
+When creating an object using the new operator on a function, the __proto__ is set to the function's .prototype member.
+
+
+function shape() { }; 
+shape.prototype.myValue = 123; 
+
+var bas = new shape(); 
+
+console.log(bas.__proto__ === shape.prototype); // true 
+console.log(bas.myValue); // 123 
+
+Note
+prototypes are shared between all the objects created from the same function.
+
+
+function shape() { }; //www. j  av  a 2 s  .  co m
+shape.prototype.myValue = 123; 
+
+var bas = new shape(); 
+var myItem = new shape(); 
+
+console.log(bas.myValue); // 123 
+console.log(myItem.myValue); // 123 
+
+shape.prototype.myValue = 456; 
+
+console.log(bas.myValue); // 456 
+console.log(myItem.myValue); // 456 
+
+
+Suppose we have 1,000 instances created of a certain object. All the properties and functions on prototype is shared.
+
+Therefore prototype saves memory.
+
+Note 2
+A prototype property is shadowed by a property on an object.
+
+
+function shape() { }; //from   w  w w . j  a  v  a 2 s. c  o m
+shape.prototype.myValue = 123; 
+
+var bas = new shape(); 
+var myItem = new shape(); 
+
+bas.myValue = 456; 
+console.log(bas.myValue);
+
+console.log(myItem.myValue); // 123 
+
+this object is a perfect candidate for read/write properties(data) and you should use it for all properties(data).
+
+But functions are generally not altered after creation. So functions are great candidates to put on .prototype.
+
+functionality (functions/methods) is shared between all instances, and properties belong on individual objects.
+
+Example 2
+The following code shows a pattern to write a class in JavaScript.
+
+
+function someClass() { /*from   w ww  .  j  av a2 s  .c om*/
+   // Properties go here 
+   this.someProperty = 'some initial value'; 
+} 
+// Member functions go here: 
+someClass.prototype.someMemberFunction = function () {
+   this.someProperty = 'modified value'; 
+   console.log("called from prototype");
+} 
+// Creation 
+var instance = new someClass(); 
+// Usage 
+console.log(instance.someProperty); // some initial value 
+instance.someMemberFunction(); 
+console.log(instance.someProperty); // modified value 
+
+Within the member function, we can get access to the current instance using this even though the same function body is shared between all instances.
+
+Most classes inside core Node.js are written using this pattern
