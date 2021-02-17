@@ -1,0 +1,117 @@
+Node.js comes with its own package management system called Node Package Manager (NPM).
+
+There are three kinds of Node.js modules: file-based modules, core modules, and external node_modules.
+
+If the module name passed into the require function is prefixed with './' or '../' or '/', then it is assumed to be a file-based module and the file is loaded.
+
+Otherwise, we look for core modules with the same name, for example, utilif the call was require('util').
+
+If no core module matching this name is found, we look for a node_module called util.
+
+Package Locations
+Packages are stored in a subdirectory named node_modules within your current directory.
+
+To determine the location, use the command npm root.
+
+To view all the installed modules using the npm ls command.
+
+After installing the commander module, you can verify it using npm ls.
+
+$ npm ls
+/npm-test
+ |
+ +--commander@1.3.2
+     |
+     +--keypress@0.1.0
+
+
+The code above shows the installed commander module. The tree structure indicates that commander depends on the keypress module.
+
+npm can recognize its dependency and automatically installs any required modules.
+
+You can see the installed modules by browsing the node_modules subdirectory.
+
+
+
+Scanning for node_modules
+If a file /home/myUser/project/myData.js has a require call require('myModule'), Node.js scans the file system for node_modules in the following order.
+
+The first myModule.js that is found is returned.
+
+/home/myUser/project/node_modules/myModule.js 
+/home/myUser/node_modules/myModule.js 
+/home/node_modules/myModule.js 
+/node_modules/myModule.js 
+
+Node.js looks for node_modules/myModule.js in the current folder followed by every parent folder until it reaches the root of the file system tree for the current file or until a myModule.js is found.
+
+The following code in c:/hello/myData.js loads a module node_modules/myModule.js.
+
+
+var myModule = require('myModule'); 
+myModule(); // hello node_modules! 
+
+File under c:/hello/node_modules/myModule.js
+
+
+module.exports = function () {
+    console.log('hello node_modules!'); 
+} 
+module myModule.js looks exactly the same if we were using file-based modules.
+
+The only difference between file-based modules and node_modules is the way in which the file system is scanned to load the JavaScript file. All other behavior is the same.
+
+
+
+
+Folder-Based Modules
+Node.js will look for an index.js file in that folder and return that as the module file.
+
+The following code show to do Implicit Loading of index.js from a Folder.
+
+File under bar/bar1.js
+
+
+module.exports = function () {
+    console.log('bar1 was called'); 
+} 
+File under bar/bar2.js
+
+
+module.exports = function () {
+   console.log('bar2 was called'); 
+} 
+File under bar/index.js
+
+
+exports.bar1 = require('./bar1'); 
+exports.bar2 = require('./bar2'); 
+Here is the File of myData.js which would use the bar module.
+
+
+var bar = require('./bar'); 
+bar.bar1(); 
+bar.bar2(); 
+Note
+The following code shows how to change the folder based module to node_modules.
+
+We can change the require call from require('./bar') to require('bar').
+
+
+// node_modules/bar/bar1.js 
+module.exports = function () {/*from  w  ww  . j  av  a  2 s . co  m*/
+   console.log('bar1 was called'); 
+} 
+// node_modules/bar/bar2.js 
+module.exports = function () {
+   console.log('bar2 was called'); 
+} 
+
+// node_modules/bar/index.js 
+exports.bar1 = require('./bar1'); 
+exports.bar2 = require('./bar2'); 
+
+// myData.js 
+var bar = require('bar'); // look for a node_modules module named bar 
+bar.bar1(); 
+bar.bar2(); 
