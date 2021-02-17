@@ -1,0 +1,56 @@
+Handling Command Line Arguments
+Install optimist using npm install optimist.
+
+optimist exports an object that contains the parsed command line arguments as the argv property.
+
+Instead of using process.argv, use require('optimist').argv.
+
+Example
+The following code creates a JavaScript file that simply logs out the processed arguments.
+
+
+var argv = require('optimist').argv; 
+console.log(argv); 
+Note
+Optimist preserves the first two members of the process.argv array, which are the node executable and the path to your JavaScript file as '$0'.
+
+The following code removed the $0.
+
+
+var argv = require('optimist').argv; 
+delete argv['$0']; 
+console.log(argv); 
+if you run the app you get the following output:
+
+$ node app.js 
+{ _: [] } 
+The property argv._ is an array of all the command line arguments that are passed in which are not flags.
+
+Flags are arguments that begin with a minus '-' sign, for example, '-f'.
+
+Let's run app.js and pass in a bunch of arguments.
+
+
+$ node app.js foo bar bas 
+{ _: [ 'foo', 'bar', 'bas' ] } 
+
+$ node app.js -r -f -s 
+{ _: [], r: true, f: true, s: true } 
+
+$ node app.js -rfs 
+{ _: [], r: true, f: true, s: true } 
+
+Note 2
+Optimist supports flags that take values if you want to accept a timeout flag (-t 100).
+
+Optimist supports them the same way it supports simple flags.
+
+The property matching the flag name is set on argv.tin and the value is set to the value the user passed (in this case 100).
+
+The following code shows Output When Using Flags with Values
+
+$ node app.js -t 100 
+{ _: [], t: 100 } 
+
+$ node app.js -t "la la la la" 
+{ _: [], t: 'la la la la' }
