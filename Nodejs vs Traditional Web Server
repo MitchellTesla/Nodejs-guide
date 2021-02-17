@@ -1,0 +1,34 @@
+Node.js is focused on creating highly performant applications.
+
+Most web applications depend on reading data from disk or from another network source.
+
+Traditional Web Servers uses a Process Per Request.
+
+Traditional servers used to spin up a new process to handle every single web request.
+
+Spinning a new process for each request is an expensive operation, both in terms of CPU and memory.
+
+Traditional Web Servers Using a Thread Pool
+
+
+
+Example
+
+Node.js uses a single thread to handle requests.
+
+
+
+
+function longRunningOperation(callback) { 
+    // simulate a 3 second operation 
+    setTimeout(callback, 3000); /*from www  .j a  va2s .  c  o m*/
+} 
+
+function userClicked() { 
+    console.log('starting a long operation'); 
+    longRunningOperation(function () {
+         console.log('ending a long operation');
+    }); 
+} 
+// simulate a user action 
+userClicked(); 
