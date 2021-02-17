@@ -1,0 +1,46 @@
+HTTP Response Codes
+The HTTP specification contains a large number of response codes a server can return to clients.
+
+We'll use a few of the more common responses in most of our applications.
+
+Code	Meaning	Description
+200	OK	Everything went fine.
+301	Moved Permanently	The requested URL has been moved, and the client should rerequest it at the URL specified in the response.
+400	Bad Request	The format of the client's request is invalid and needs to be fixed.
+401	Unauthorized	The client has asked for something it does not have permission to view.
+403	Forbidden	The server is refusing to process this request. This is not the same as 401, where the client can try again with authentication.
+404	Not Found	The client has asked for something that does not exist.
+500	Internal Server Error	Something happened resulting in the server being unable to process the request.
+503	Service Unavailable	This indicates some sort of runtime failure.
+
+
+Your First JSON Server
+Here is the trivial server, which is saved to simple_server.js:
+
+
+var http = require('http');
+// w  w w.j  a  va  2  s.  c om
+function  handle_incoming_request (req, res) {
+    console.log("INCOMING REQUEST: " + req.method + " " + req.url);
+    res.writeHead(200, { "Content-Type" : "application/json" });
+    res.end(JSON.stringify( { error: null }) + "\n");
+}
+
+var s = http.createServer(handle_incoming_request);
+s.listen(8080);
+Run this program in one terminal window (Mac/Linux) or command prompt (Windows) by typing
+
+node simple_server.js
+Now, in another terminal window, type
+
+curl -X GET http://localhost:8080
+We should see
+
+
+INCOMING REQUEST: GET /
+In the window where you ran the curl command, you should see
+
+
+{"error":null}
+
+
