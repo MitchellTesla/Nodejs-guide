@@ -1,0 +1,33 @@
+Node.js has a few key global variables that are always available to you.
+
+global
+JavaScript in web browsers have the window object as a "global" variable.
+
+Any variables or members attached to global are available anywhere in the application.
+
+Node.js has the global object.
+
+Anything attached to it is available anywhere in your node application:
+
+
+function printit(var_name) {// www. ja v  a2s.  c o m
+  console.log(global[var_name]);
+}
+
+global.HTML = "H";
+global.CSS = "C";
+
+printit("CSS"); 
+printit("HTML");
+printit("SQL"); 
+
+console
+Node.js has global variable console.
+
+console.log function can output string to the console window or debug window from browser.
+
+console.warn(msg) prints on stderr .
+
+console.time(label) marks a time stamp and console.timeEnd(label) prints out the elapsed time since the time function was called.
+
+console.assert(cond,message ) throws an AssertionFailure exception if cond evaluates to false.
