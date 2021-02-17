@@ -1,0 +1,47 @@
+Relative paths
+Module paths that begin with one or two dots (. or ..) are interpreted as relative paths. They are considered relative to the file that called require().
+
+The following code shows three examples of relative module paths.
+
+require("./foo"); loads foo from the same directory as the calling script.
+require("../foo"); loads foo from parent directory.
+require("./sub/foo"); loads foo from a subdirectory, sub, of the calling script's directory.
+
+
+File modules are modules loaded from the file system.
+
+We can use absolute paths, relative paths, or the node_modules directory to reference file modules.
+
+Node supports Windows-style file paths.
+
+On Windows, Node allows the slash and backslash characters (/ and \) to be used interchangeably.
+
+Absolute paths
+Module names that begin with a slash (/) are treated as absolute paths.
+
+For example, require("/some/path/foo"); loads file module foo using an absolute path.
+
+Example Module Paths Valid on Windows
+
+require("/some/path/foo"); 
+require("C:/some/path/foo"); 
+require("C:\\some\\path\\foo"); 
+require("\\some/path\\foo");
+
+
+
+Note
+If a module path does not correspond to a core module, an absolute path, or a relative path, then Node begins searching in node_modules folders.
+
+Node begins with the calling script's parent directory and appends /node_modules.
+
+If the module is not found, Node moves one level up the directory tree, appends /node_modules, and searches again.
+
+This pattern is repeated until the module is located or the root of the directory structure is reached. If Node is unable to find a match, an error is thrown.
+
+File Extension Processing
+If require() does not find an exact match, it attempts to add .js, .json, and .node file extensions.
+
+.js files are interpreted as JavaScript source code,
+.json files are parsed as JSON source
+.node files are treated as compiled add-on modules
