@@ -1,0 +1,39 @@
+The variable global is our handle to the global namespace in Node.js.
+
+All the true globals we have seen, such as console, setTimeout, and process, are members of the global variable.
+
+We can even add members to the global variable to make it available everywhere.
+
+Example
+The following code checks the true global functions.
+
+
+console.log(console === global.console); // true 
+console.log(setTimeout === global.setTimeout); // true 
+console.log(process === global.process); // true 
+
+Note
+The following code shows how to use global variables across javascript file.
+
+c:/globals/global/addToGlobal.js
+
+
+global.something = 123; 
+c:/globals/global/app.js
+
+
+// Add something to global 
+require('./addToGlobal'); 
+console.log(something); // 123 
+
+
+__filename and __dirname
+These variables are available in each file and give you the full path to the file and directory for the current module.
+
+They include everything right up to the root of the current drive this file resides on.
+
+The following code shows values.
+
+
+console.log(__dirname); 
+console.log(__filename); 
