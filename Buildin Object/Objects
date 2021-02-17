@@ -1,0 +1,93 @@
+To create an object, we can use either of the following,
+
+
+var o1 = new Object();
+var o2 = {};
+The latter, known as object literal syntax, is preferred.
+
+We can specify the contents of objects using object literal syntax.
+
+We can specify member names and values at initialization time:
+
+Example
+
+var user = {
+     first_name: "HTML",
+     last_name: "CSS",
+     age: 32,
+     website: "java2s.com"
+};
+We can add a new property to your user object by using any of the following methods:
+
+
+user.name= "brown";
+user["name"] = "brown";
+var attribute = 'name';
+user[attribute] = "brown";
+If we try to access a property that does not exist, we do not receive an error, but instead just get back undefined.
+
+To remove a property from an object, we can use the delete keyword:
+
+delete user.name;
+
+
+Object Literals
+The most common way of creating an object in JavaScript is using the object notation, {}.
+
+Objects can be extended arbitrarily at runtime.
+
+
+var myData = {}; 
+console.log(myData); // {} 
+
+myData.myValue = 123; // extend myData 
+console.log(myData); // { myValue: 123 } 
+
+
+
+We can define which properties go on an object upfront by using the object literal notation.
+
+
+var myData = { 
+    myValue: 123 
+}; 
+console.log(myData); // { myValue: 123 }
+
+
+We can nest object literals inside object literals.
+
+
+var myData = { 
+    myValue: 123, 
+    bas: { 
+        bas1: 'some string', 
+        bas2: 345 
+    } 
+}; 
+console.log(myData); 
+We can have arrays inside object literals.
+
+
+var myData = { 
+    myValue: 123, 
+    bas: [1, 2, 3] 
+}; 
+console.log(myData); 
+We can also have these arrays themselves contain object literals.
+
+
+var myData = { 
+    myValue: 123, /*from   w ww  .j a  v  a 2  s .  co m*/
+    bas: [{ 
+            myItem: 1 
+          }, 
+          { 
+            myItem: 2 
+          }, 
+          {
+            myItem: 3
+    }] 
+}; 
+console.log(myData.myValue); // 123 
+console.log(myData.bas[0].myItem); // 1 
+console.log(myData.bas[2].myItem); // 2 
