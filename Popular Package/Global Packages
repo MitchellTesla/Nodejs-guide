@@ -1,0 +1,59 @@
+Packages are libraries that are included in your program.
+
+Local packages must be installed in every project using them. While a global package needs to be installed in only one location.
+
+To install a package globally, issue npm install with the -g or --global option.
+
+You can process global packages by adding the -g option to most npm commands.
+
+To view the installed global packages use the command npm ls -g.
+
+To locate the global node_modules folder use the npm root -g command.
+
+All of the NPM commands we have seen take an optional -g flag to indicate that you are working with global modules.
+
+Example
+The following code installs the browserify package globally.
+
+npm install -g browserify
+This put browserify on the command line, which we used in the previous chapter.
+
+To update global packages
+
+npm update -g package-name
+To list global packages
+
+npm ls -g
+To uninstall packages
+
+npm rm -g package-name
+For example, to uninstall Browserify, you would run
+
+npm rm -g browserify
+When installing modules globally, NPM does not modify your system configuration.
+
+The global modules are placed in a location where they become available on the command line.
+
+Using require with Global Modules
+Modules installed globally should not be used with a require function in our code, although many packages that support the global flag also support being installed locally in our project (the node_modules folder).
+
+If installed locally, that is, without the -g flag, we can use them with the require function as we have already seen.
+
+A good and simple example of this is the rimraf module (www.npmjs.org/package/rimraf).
+
+If rimraf is installed globally (npm install -g rimraf), it provides a command line utility that you can use cross platform for recursively and forcefully removing a directory.
+
+To remove a directory myData after installing rimraf globally, run
+
+rimraf myData
+To do the same from your Node.js code, install rimraf locally (npm install rimraf), create an app.js as shown.
+
+
+var rimraf = require('rimraf'); 
+rimraf('./foo', function (err) {
+    if (err) 
+       console.log('Error occured:', err);
+    else 
+       console.log('Directory foo deleted!'); 
+}) 
+
