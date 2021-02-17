@@ -1,0 +1,117 @@
+Node.js comes with built-in support for events in the core events module.
+
+Use require('events') to load the module.
+
+The events module has one simple class "EventEmitter".
+
+EventEmitter class
+EventEmitter is a class designed to make it easy to emit events and subscribe to raised events.
+
+The following code provides a small code sample where we subscribe to an event and then raise it.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+
+// Subscribe 
+emitter.on('foo', function (arg1, arg2) {
+   console.log('Foo raised, Args:', arg1, arg2); 
+}); 
+// Emit 
+emitter.emit('foo', { a: 123 }, { b: 456 }); 
+We can create a new instance with a simple new EventEmitter call.
+
+To subscribe to events, use the on function passing in the event name followed by an event handling function.
+
+Finally, we raise an event using the emit function passing in the event name followed by any number of arguments we want passed into the listeners.
+
+
+
+
+ 
+
+Multiple Subscribers
+The following code shows how to have multiple subscribers for an event.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+//from   w w  w .j  ava2 s .c o m
+emitter.on('foo', function () {
+    console.log('subscriber 1'); 
+}); 
+emitter.on('foo', function () {
+    console.log('subscriber 2'); 
+}); 
+
+// Emit 
+emitter.emit('foo'); 
+The code above generates the following result.
+
+
+
+
+
+ 
+
+Note
+The listeners are called in the order that they registered for the event.
+
+Any arguments passed in for the event are shared between the various subscribers.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+//  w  w w .j a va  2s . co  m
+emitter.on('foo', function (ev) {
+    console.log('subscriber 1:', ev);
+    ev.handled = true; 
+}); 
+
+emitter.on('foo', function (ev) { 
+   if (ev.handled) { 
+      console.log('event already handled'); 
+   } 
+}); 
+
+// Emit 
+emitter.emit('foo', {handled: false }); 
+In this sample, the first listener modified the passed event argument and the second listener got the modified object.
+
+Unsubscribing
+EventEmitter has a removeListener function that takes an event name followed by a function object to remove from the listening queue.
+
+We must have a reference to the function you want removed from the listening queue.
+
+The following code shows how you can unsubscribe a listener.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+//from   w  w w .ja v  a2 s .  com
+var fooHandler = function () { 
+    console.log('handler called');
+    // Unsubscribe 
+    emitter.removeListener('foo',fooHandler); 
+}; 
+
+emitter.on('foo', fooHandler); 
+// Emit twice 
+emitter.emit('foo'); 
+emitter.emit('foo'); 
+In this sample, we unsubscribe from the event after it is raised once. As a result, the second event goes unnoticed.
+
+EventEmitter provides a function `once` that calls the registered listener only once.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+/*w  w  w.ja v  a 2 s. c om*/
+emitter.once('foo', function () {
+     console.log('foo has been raised'); 
+}); 
+
+// Emit twice 
+emitter.emit('foo'); 
+emitter.emit('foo'); 
+The event listener for foo will only be called once.
