@@ -1,0 +1,104 @@
+JavaScript is a functional programming language, functions are fully typed objects that can be manipulated, extended, and passed around as data.
+
+A normal function structure in JavaScript is defined as follows.
+
+function functionName() {
+   // function body
+   // optional return; 
+} 
+All functions return a value in JavaScript.
+
+In the absence of an explicit return statement, a function returns undefined.
+
+
+function myData() { 
+   return 123; 
+} 
+console.log(myData()); // 123 
+
+function myValue() { 
+} 
+console.log(myValue()); // undefined 
+
+
+
+Example
+The following code shows how to create a function:
+
+
+function hello(name) {
+     console.log("hello " + name);
+}
+hello("CSS");
+
+
+Note
+To declare parameters for a function in JavaScript, list them in the parentheses.
+
+There is no checking of these parameters at runtime:
+
+
+function hello(name) {
+     console.log("hello " + name);
+}
+hello();
+hello("CSS", "HTML", "AAA", 4);
+
+
+If too few parameters are passed into a function call, the resulting variables are assigned the value undefined.
+
+If too many are passed in, the extras are simply unused.
+
+All functions have a predefined array in the body called arguments.
+
+It has all the values that were passed in to the function, and we can do extra checking on the parameter list.
+
+Functions in JavaScript do not even need to have names:
+
+
+var x = function (a, b) {
+     return a + b;
+}
+console.log(x(10, 20));
+
+
+
+Function Scope
+Every time a function is called, a new variable scope is created.
+
+Variables declared in the parent scope are available to that function.
+
+Variables declared within the new scope are not available when the function exits.
+
+Consider the following code:
+
+
+var pet = 'cat';
+
+function myMethod() {
+     var pet = 'dog';
+     console.log(pet);
+ }
+
+myMethod();
+console.log(pet);
+
+
+Combining this scoping with anonymous functions is better way to use private variables that will disappear when the anonymous function exits.
+
+Example 2
+Here's a contrived example to compute the volume of a cone:
+
+
+var height = 5;
+var radius = 3;
+var volume;
+// declare and immediately call anonymous function to create scope
+(function () {/*from w  w  w  . j  av a  2 s  . c  o m*/
+     var pir2 = Math.PI * radius * radius;   // temp var
+     volume = (pir2 * height) / 3;
+})();
+
+console.log(volume);
+
+
