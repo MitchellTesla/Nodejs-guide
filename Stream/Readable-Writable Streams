@@ -1,0 +1,45 @@
+Consuming Readable Streams
+The most important event for a readable stream is 'readable'.
+
+readable event is raised when there is new data to be read from a stream.
+
+We can call the read function on the stream to read data from the stream.
+
+If this is the end of the stream, the read function returns null.
+
+Save the following code as basic.js.
+
+
+process.stdin.on('readable', function () { 
+    var buf = process.stdin.read(); 
+    if (buf != null) {
+       console.log('Got:');
+       process.stdout.write(buf.toString()); 
+    } else {
+       console.log('Read complete!'); 
+    } 
+}); 
+The following code shows how we pipe data into process.stdin from the command line.
+
+$ echo 'foo bar bas' | node basic.js 
+Got: 
+'foo bar bas' 
+Read complete! 
+
+
+
+ 
+
+Writing to Writable Streams
+To write to a stream, call write to write some data.
+
+When you have finished writing, call end.
+
+You can write some data using the end member function.
+
+
+var fs = require('fs'); 
+var ws = fs.createWriteStream('message.txt'); 
+
+ws.write('this is a test'); 
+ws.end('bas'); 
