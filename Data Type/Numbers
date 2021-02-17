@@ -1,0 +1,82 @@
+All numbers in JavaScript are 64-bit IEEE 754 double-precision floating-point numbers.
+
+All numbers in JavaScript have the same floating point number type.
+
+Arithmetic operations (+,-,*,/,%) work on numbers as you would expect.
+
+
+var myData = 1; 
+var myValue = 2; 
+console.log(myData + 1); 
+console.log(myData / myValue); 
+console.log(myData * myValue); 
+console.log(myData - myValue); 
+console.log(myData % 2);
+
+Example
+The number type in JavaScript behaves much like integer data types in other languages:
+
+
+console.log(1024 * 1024);
+
+
+
+The tricky part of using the number type, however, is that for many numeric values, it is an approximation of the actual number.
+
+For example:
+
+
+console.log(0.1 + 0.2);
+The code above generates the following result.
+
+
+When performing floating-point mathematical operations, we cannot manipulate arbitrary real numbers and expect an exact value:
+
+
+console.log(1 - 0.3 + 0.1 == 0.8);
+The code above generates the following result.
+
+
+Note
+In JavaScript dividing a number by zero returns the value Infinity or -Infinity instead of generating a runtime exception:
+
+
+console.log(5 / 0);
+console.log(-5 / 0);
+The code above generates the following result.
+
+
+Infinity and -Infinity are valid values that we can compare against in JavaScript:
+
+
+var x = 10, y = 0;
+console.log(x / y == Infinity);
+
+Note 2
+You can use the functions parseInt and parseFloat to convert strings to numbers:
+
+
+console.log(parseInt("32"));
+console.log(parseFloat("8.24"));
+console.log(parseInt("234.12345"));
+console.log(parseFloat("10"));
+
+Note 3
+If we provide these functions with not-parsable value, they return the special value NaN:
+
+
+console.log(parseInt("cat"));
+console.log(parseFloat("css"));
+
+To test for NaN, use the isNaN function:
+
+
+isNaN(parseInt("cat"));
+Note 4
+To test whether a given number is a valid finite number, use the isFinite function:
+
+
+console.log(isFinite(10/5));
+console.log(isFinite(10/0));
+console.log(isFinite(parseFloat("css")));
+
