@@ -1,0 +1,33 @@
+indexOf
+To find a string with another string, use the indexOf function:
+
+
+var i = "this is a test".indexOf("is");
+console.log(i);
+
+
+substr and splice
+To extract a substring from a string, use the substr or splice function.
+
+substr takes the starting index and length of string to extract. splice takes the starting index and ending index:
+
+
+var s = "this is a test string.".substr(19, 3);
+var s1 = "this is a test string.".slice(19, 22);
+console.log(s);
+console.log(s1);
+
+
+Split
+To split string into substrings, use the split function and get an array as the result:
+
+
+var s = "a|b|c|d|e|f|g|h".split("|");
+console.log(s);
+The code above generates the following result.
+
+
+The trim function from V8 Javascript function removes whitespace from the beginning and end of a string:
+
+var s = '       cat   \n\n\n    '. trim();
+console.log(s);
