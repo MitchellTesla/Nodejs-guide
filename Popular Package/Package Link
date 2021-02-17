@@ -1,0 +1,36 @@
+Using npm, you can create links to local packages.
+
+When you link to a package, it can be referenced as if it were a global package.
+
+Package linking has two steps.
+
+Step 1
+The first step is to create the link: changing to the directory of the project you want to make linkable and issue command to create the link.
+
+The following code shows how to create a link, assuming that your module is located in foo-module.
+
+cd foo-module
+npm link
+After executing the npm link command, verify that the link was created using npm ls -g.
+
+Step 2
+The second step is to reference the link.
+
+First, change to the directory that will import the linked module. Next, issue another npm link command with the linked module's name.
+
+Suppose, the foo-module link is referenced from a second module, bar-module.
+
+cd bar-module
+npm link foo-module
+Unlinking Packages
+To remove a linked module, use the npm unlink command, followed by the name.
+
+The following code removes the linked foo-module from bar-module.
+
+cd bar-module
+npm unlink foo-module
+To remove a link from your system, change to the linked module's directory, and issue the npm unlink command.
+
+cd foo-module
+npm unlink
+
