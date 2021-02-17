@@ -1,0 +1,53 @@
+Underscore (npm install underscore) is by far the most popular JavaScript library available on NPM.
+
+It is the library with the largest number of dependents.
+
+It is called underscore because it creates a global variable '_' when used in the browser.
+
+In node, we can name the variable returned from require('underscore') whatever we want, but it is conventional to still do var _ = require('underscore').
+
+Underscore provides a lot of functional programming support to JavaScript.
+
+filter
+To filter elements which are greater than 100 in an array of numbers.
+
+The function _.filter takes an array, passes each element of the array to a function (second argument), and returns an array containing all the elements where the second function returns true.
+
+
+var foo = [1111, 10, 50, 200, 9, 90, 40]; 
+var _ = require('underscore'); 
+var results = _.filter(foo, function (item) { return item > 100 }); 
+console.log(results); 
+The _.map function takes an array, calls a function for each element of the array storing the return value as a result, and returns a new array consisting of all the results.
+
+It basically maps an input array, through a function, into an output array.
+
+To multiply each element of an array with 2.
+
+map
+We can do that quite simply using _.map as shown.
+
+
+var foo = [1, 2, 3, 4]; 
+var _ = require('underscore'); 
+var results = _.map(foo, function (item) { return item * 2 }); 
+console.log(results); 
+To get all elements in a collections except those that match a condition.
+
+reject
+For this, we can use _.reject.
+
+An example to get only the odd elements in an array is shown as follows.
+
+
+var _ = require('underscore'); 
+var odds = _.reject([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; }); 
+console.log(odds); // [1, 3, 5] 
+
+To get the maximum element of an array use _.max, to get the minimum use _.min:
+
+
+var _ = require('underscore'); 
+var numbers = [10, 5, 100, 2, 1000]; 
+console.log(_.min(numbers)); // 2 
+console.log(_.max(numbers)); // 1000 
