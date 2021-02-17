@@ -1,0 +1,81 @@
+Node.js is highly performant, and it uses JavaScript because JavaScript supports first-class functions and closures.
+
+Node.js has a few core types: number , boolean , string , and object.
+
+The value undefined means that a value has not been set yet or simply does not exist:
+
+
+var x;
+console.log(x);
+The code above generates the following result.
+
+
+Null
+null is an explicit assertion that there "is no value":
+
+
+var y;
+console.log(y);
+
+y = null ;
+console.log(y);
+The code above generates the following result.
+
+
+typeof
+To see the type of anything in JavaScript, use the typeof operator:
+
+
+console.log(typeof 10);
+console.log(typeof "hello");
+console.log(typeof function () { var x = 20; });
+The code above generates the following result.
+
+
+Constants
+The standard practice is to use uppercase letters and variable declarations:
+
+
+var SECONDS_PER_DAY = 86400;
+console.log(SECONDS_PER_DAY);
+
+Type Comparisons and Conversions
+JavaScript has both the equality operator == and the precise equality operator ===.
+
+
+console.log(234 == '234');
+console.log(234 === '234');
+console.log(234234.235235 == 'cat');
+console.log("cat" == "CAT");
+console.log("cat".toUpperCase() == "CAT");
+The code above generates the following result.
+
+
+A number of different values evaluate to false.
+
+
+console.log('' == false == null == undefined == 0);
+console.log(null === undefined);
+To check arguments to functions:
+
+
+function fine(param) {
+   if (param == null || param == undefined || param == '')
+      throw new Error("Invalid Argument");
+}
+function better(param) {
+    if (!param) 
+       throw new Error("Invalid Argument");
+}
+Pay more attention to the primitive wrapper.
+
+
+var x = 234;
+var x1 = new Number(234);
+console.log(typeof x);
+console.log(typeof x);
+console.log(x1 == x);
+console.log(x1 === x);
+
+
+
