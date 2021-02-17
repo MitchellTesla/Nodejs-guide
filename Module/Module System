@@ -1,0 +1,137 @@
+Node.js uses File Based Module System.
+
+Each file is its own module.
+
+Each file has access to the current module definition using the module variable.
+
+The export of the current module is determined by the module.exports variable.
+
+To import a module, use the globally available require function.
+
+Example
+The following code creates a function in file myData.js to reuse in various parts of our application.
+
+To export the function from the file located in c:/intro/base/myData.js , we simply assign it to module.exports.
+
+
+module.exports = function () {
+   console.log('a function in file myData'); 
+}; 
+In order to use this function from a file c:/intro/base/myValue.js, import myData using the globally require function and store the returned value in a local variable.
+
+
+var myData = require('./myData'); 
+myData(); // logs out : "a function in file myData" 
+
+module.exports
+Each file in Node.js is a module.
+
+The items to export from a module should be attached to the module.exports variable.
+
+module.exports is defined to be a new empty object in every file.
+
+module.exports = {} is implicitly present.
+
+By default, every module exports an empty object, {}.
+
+
+console.log(module.exports); // {} 
+
+Exports Alias
+We can export more than one variable from a module.
+
+One way of achieving this is to create a new object literal and assign that to module.exports.
+
+In c:/intro/exports/myData1.js we have
+
+
+var a = function () {
+    console.log('a called'); 
+}; /*from   w ww.j  a va2s  .  c o m*/
+var b = function () {
+    console.log('b called'); 
+}; 
+
+module.exports = {
+    a: a, 
+    b: b 
+}; 
+In c:/intro/exports/myData2.js we have
+
+
+module.exports.a = function () { 
+    console.log('a called'); 
+}; 
+
+module.exports.b = function () { 
+    console.log('b called'); 
+}; 
+Node.js helps us by creating an alias for module.exports called exports so instead of typing module.exports.something every time, you can simply use exports.something.
+
+In c:/intro/exports/myData3.js we have
+
+
+exports.a = function () { 
+    console.log('a called'); 
+}; 
+exports.b = function () { 
+    console.log('b called'); 
+}; 
+exports is just like any other JavaScript variable.
+
+Node.js simply does exports = module.exports.
+
+If we add something for example, myData to exports, that is exports.myData = 123, we are effectively doing module.exports.myData = 123 since JavaScript variables are references.
+
+The following code shows that all of these methods are equivalent from consumption (import) point of view.
+
+In c:/intro/exports/app.js we have
+
+
+var myData1 = require('./myData1'); 
+myData1.a(); // www .  j  av  a2s.  c o m
+myData1.b(); 
+
+var myData2 = require('./myData2'); 
+myData2.a(); 
+myData2.b(); 
+
+var myData3 = require('./myData3'); 
+myData3.a(); 
+myData3.b(); 
+
+Modules Best Practices
+Do Not Use the .js Extension
+It is better to do require('./myData') instead of require('./myData.js') even though both work fine for Node.js.
+
+Relative Paths
+When using file-based modules, you need to use relative paths (in other words, do require('./myData') instead of require('myData')).
+
+Utilize exports
+Try and use the exports alias when you want to export more than one thing.
+
+The following code shows how to Create a Local Variable and Also Export
+
+
+var myData = exports.myData = /* whatever you want to export as `myData` from this module */ ; 
+Export an Entire Folder
+If you have too many modules that go together that you keep importing into other files, try to avoid repeating the import.
+
+
+var myData = require('../something/myData'); 
+var myValue = require('../something/myValue'); 
+var another = require('../something/another'); 
+var third = require('../something/third'); 
+Instead, create a single index.js in the something folder. In index.js, import all the modules once and then export them from this module.
+
+In c:/yourFolder/index.js we have
+
+
+exports.myData = require('./myData'); 
+exports.myValue = require('./myValue'); 
+exports.another = require('./another'); 
+exports.third = require('./third'); 
+Now you can simply import this index.js whenever you need all these things:
+
+
+var something = require('../something/index');
