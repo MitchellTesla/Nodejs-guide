@@ -1,0 +1,21 @@
+The os module provides a few basic operating-system related utility functions and properties.
+
+You can access it using a require('os') call.
+
+Example
+For example, to get the current system memory usage, use os.totalmem() and os.freemem() functions.
+
+
+var os = require('os'); 
+var gigaByte = 1 / (Math.pow(1024, 3)); 
+console.log('Total Memory', os.totalmem() * gigaByte, 'GBs'); 
+console.log('Available Memory', os.freemem() * gigaByte, 'GBs'); 
+console.log('Percent consumed', 100 * (1 - os.freemem() / os.totalmem())); 
+
+
+Note
+A vital facility provided by the os module is information about the number of CPUs available.
+
+
+var os = require('os'); 
+console.log('This machine has', os.cpus().length, 'CPUs'); 
