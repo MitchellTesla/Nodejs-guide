@@ -1,0 +1,81 @@
+NPM uses JSON files for configuring modules.
+
+JSON is a standard format transfer data over the network.
+
+JSON is a subset of JavaScript object literals.
+
+For JSON you must use quotation marks for JavaScript object keys.
+
+JSON limits a value for a given key.
+
+The values can only be a string, number, boolean (true or false), array, null, or another valid JSON object.
+
+Example
+The following code shows a valid JSON object.
+
+{ 
+    "firstName": "CSS", 
+    "lastName": "HTML", 
+    "isAlive": true, 
+    "age": 5, 
+    "height_cm": 111.12, 
+    "address": {
+         "streetAddress": "1234 Main Street", 
+         "city": "New York", 
+         "state": "NY",
+    },
+    "phoneNumbers": [ 
+        { "type": "home", "number": "222 555-1234" }, 
+        { "type": "fax", "number": "666 555-4567" }
+    ], 
+    "additionalInfo": null 
+}
+The firstName value is a string, age is a number, isAlive is a boolean, phoneNumbers is an array of valid JSON objects, additionalInfo is null, and address is another valid JSON object.
+
+The last property in JSON must not have an extra comma.
+
+
+Loading JSON in Node.js
+We can load a JSON object from the file system the same way we load a JavaScript module.
+
+Every single time within the module loading sequence, if a file.js is not found, Node.js looks for a file.json.
+
+If it is found, it returns a JavaScript object representing the JSON object.
+
+In the c:/json/filebased/config.js we have
+
+
+{
+   "myData": "this is the value for myData" 
+} 
+
+The following code uses require to load JSON data.
+
+
+var config = require('./config'); 
+console.log(config.myData); // this is the value for myData 
+
+JSON Converter
+JSON object has functions for converting a string representation of JSON to JavaScript objects and converting JavaScript objects into a JSON string.
+
+To convert a JavaScript object to a JSON string, call JSON.stringify passing in the JavaScript object.
+
+This function returns the JSON string representation of the JavaScript object.
+
+To convert a JSON string into a JavaScript object, use the JSON.parse function, which simply parses the JSON string and returns a JavaScript object.
+
+
+var myData = {
+    a: 1, // ww w .j a  v a  2s.  c  o  m
+    b: 'a string', 
+    c: true 
+}; 
+// convert a JavaScript object to a string 
+var json = JSON.stringify(myData); 
+console.log(json); 
+console.log(typeof json); // string 
+
+// convert a JSON string to a JavaScript object 
+var backToJs = JSON.parse(json); 
+console.log(backToJs); 
+console.log(backToJs.a); // 1 
