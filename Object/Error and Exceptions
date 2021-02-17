@@ -1,0 +1,113 @@
+Error handling is an important part of any application.
+
+To throw an exception, use the throw JavaScript keyword.
+
+In JavaScript, you traditionally signal errors using an Error object and a message.
+
+You throw this error, to signal the error condition:
+
+<p>The code above generates the following result.</p>
+function a() {
+    throw new Error("Something bad happened!");
+}
+a();
+
+Catch Exception
+You can catch it with a try / catch block as seen in other languages:
+
+
+function a () {
+    throw new Error("Something bad happened!");
+}
+try {
+    a();
+} catch (e) {
+    console.log("I caught an error: " + e.message);
+}
+console.log("program is still running");
+The output of this program is
+
+I caught an error: Something bad happened! program is still running
+
+finally
+To catch an exception, you can use the catch keyword.
+
+For code to run regardless of whether an exception was caught or not, you can use the finally keyword.
+
+The following code shows a simple example that demonstrates this.
+
+
+try { 
+   console.log('About to throw an error'); 
+   throw new Error('Error thrown'); 
+} catch (e) { 
+   console.log('I will only execute if an error is thrown'); 
+   console.log('Error caught: ', e.message); 
+} finally { 
+   console.log('I will execute irrespective of an error thrown'); 
+} 
+The catch section executes only if an error is thrown.
+
+The finally section executes despite any errors thrown within the try section.
+
+
+Note
+This method of exception handling is great for synchronous JavaScript.
+
+For asynchronous JavaScript we should handle the error inside the callback.
+
+
+setTimeout(function () { 
+    try { 
+        console.log('About to throw an error'); 
+        throw new Error('Error thrown'); 
+    } catch (e) { 
+        console.log('Error caught!'); 
+    } 
+}, 1000); 
+For the code above we cannot tell the code outside about the error.
+
+Consider a simple getConnection function that takes a callback we need to call after a successful connection.
+
+
+function getConnection(callback) { 
+    var connection; 
+    try { 
+       throw new Error('connection failed'); 
+       // Notify callback that connection succeeded? 
+    } catch (error) { 
+       // Notify callback about error? 
+    } 
+} 
+We need to notify the callback about success and failure.
+
+This is why Node.js has a convention of calling callbacks with the first argument of error if there is an error.
+
+If there is no error, we call back with the error set to null.
+
+A getConnection function for the Node.js would be something like the follows.
+
+
+function getConnection(callback) { /*  www.j av a2s  .  com*/
+    var connection; 
+    try {
+       // Lets assume that the connection failed 
+       throw new Error('connection failed');
+       // Notify callback that connection succeeded?
+       callback(null, connection); 
+    } catch (error) {
+       // Notify callback about error? 
+       callback(error, null); 
+    } 
+} 
+// Usage 
+getConnection(function (error, connection) { 
+    if (error) {
+       console.log('Error:', error.message); 
+    } else {
+       console.log('Connection succeeded:', connection); 
+    } 
+}); 
+Having the error as the first argument ensures consistency in error checking.
+
+This is the convention followed by all Node.js functions that have an error condition.
