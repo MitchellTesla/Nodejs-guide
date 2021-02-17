@@ -1,0 +1,38 @@
+Strings in JavaScript are sequences of Unicode characters.
+
+We use a string of length 1 to represent character.
+
+Strings can be wrapped in single or double quotation marks.
+
+They are functionally equivalent.
+
+To include a single quotation mark inside a single-quoted string, we can use \', and similarly for double quotation marks inside double-quoted strings, we can use \":
+
+
+console.log('Javascript\'s new feature.')
+console.log("\"Hey, new feature!\", he said.")
+
+
+Example
+To get the length of a string in JavaScript, just use the length property:
+
+
+var x = "cat";
+console.log(x.length);
+
+
+To add two strings together, you can use the + operator:
+
+
+var s = "CSS" + " is " + "cool";
+console.log(s);
+
+
+Javascript + can convert them as best it can:
+
+
+var distance = 25;
+var s = "This is a test: " + distance + ".";
+console.log(s);
+
+
