@@ -1,0 +1,93 @@
+Install moment as follows:
+
+npm install moment
+moment provides a function that can be used to wrap a JavaScript date object into a moment object.
+
+There are lots of ways to create a moment object. The simplest is to simply pass in a date object.
+
+Example
+To convert a moment object to a JavaScript date, simply call the toDate member function.
+
+
+var moment = require('moment'); 
+
+// From date to moment 
+var wrapped = moment(new Date()); 
+console.log(wrapped); 
+
+// From moment to date 
+var date = wrapped.toDate(); 
+console.log(date); 
+
+Date String Parse
+Moment provides reliable string parsing.
+
+The result of a parsed string is a wrapped moment object.
+
+To unwrap, call toDate.
+
+
+var moment = require('moment'); 
+// From string to date 
+console.log(moment("12-25-1995", "MM-DD-YYYY").toDate()); 
+console.log(moment("2010-10-20 4:30", "YYYY-MM-DD HH:mm").toDate()); 
+Date Format
+moment can do date formatting.
+
+
+var moment = require('moment'); 
+/*from   ww w  . j  ava  2 s . com*/
+var date = new Date(2010, 1, 14, 15, 25, 50); 
+var wrapped = moment(date); 
+
+// "Sunday, February 14th 2010, 3:25:50 pm" 
+console.log(wrapped.format('"dddd, MMMM Do YYYY, h:mm:ss a"')); 
+
+// "Sun, 3PM" 
+console.log(wrapped.format("ddd, hA")); 
+
+var a = moment([2007, 0, 15]); // 15 Jan 2007 
+var b = moment([2007, 0, 16]); // 16 Jan 2007 
+var c = moment([2007, 1, 15]); // 15 Feb 2007 
+var d = moment([2008, 0, 15]); // 15 Jan 2008 
+
+console.log(a.from(b)); // "a day ago" 
+console.log(a.from(c)); // "a month ago" 
+console.log(a.from(d)); // "a year ago" 
+
+console.log(b.from(a)); // "in a day" 
+console.log(c.from(a)); // "in a month" 
+console.log(d.from(a)); // "in a year" 
+
+
+
+
+ 
+
+Serializing Dates
+If we call the toJSON method on a JavaScript date, ISO8601 formatted string is what we get back.
+
+Similarly, passing in this string to a JavaScript date constructor gives us a new JavaScript date object.
+
+
+var date = new Date(Date.UTC(2020, 0, 1)); 
+console.log('Original', date); 
+// To JSON 
+var jsonString = date.toJSON(); 
+console.log(jsonString); // 2020-01-01T00:00:00.000Z 
+// From JSON 
+console.log('Round Tripped',new Date(jsonString)); 
+If any object has a toJSON method, it will be called by JSON.stringify when it tries to serialize it to JSON.
+
+Hence, we can use it to customize the serialization for any JavaScript object if we want to.
+
+
+var foo = {}; 
+var bar = { 'foo': foo }; 
+//  www .ja v a  2 s .c o m
+// Uncustomized serialization 
+console.log(JSON.stringify(bar)); // {"foo":{}} 
+
+// Customize serialization 
+foo.toJSON = function () { return "custom" }; 
+console.log(JSON.stringify(bar)); // {"foo":"custom"} 
