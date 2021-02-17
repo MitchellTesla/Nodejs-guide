@@ -1,0 +1,39 @@
+The fs module provides access to the file system.
+
+Use require('fs') to load this module.
+
+The fs module has functions for renaming files, deleting files, reading files, and writing to files.
+
+The following code shows how to write to the file system and read from the file system.
+
+
+var fs = require('fs'); 
+fs.writeFileSync('a.js', 'Hello fs!'); 
+console.log(fs.readFileSync('a.js').toString()); 
+fs module has asynchronous as well as synchronous functions with the -Sync postfix for dealing with the file system.
+
+Example
+As an example, to delete a file you can use unlink or unlinkSync.
+
+
+var fs = require('fs'); 
+//from www .  j  a  v a 2s  . c  o m
+try { 
+    fs.unlinkSync('./test.txt'); 
+    console.log('test.txt successfully deleted'); 
+} catch (err) { 
+    console.log('Error:', err); 
+} 
+
+fs.unlink('./test1.txt', function (err) { 
+    if (err) {
+       console.log('Error:', err); 
+    } else {
+       console.log('test.txt successfully deleted'); 
+    } 
+}); 
+
+
+
+
+The async version takes a callback and is passed the error object if there is one
