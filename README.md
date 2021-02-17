@@ -1,3 +1,3 @@
 # 2021 Comprehensive Guide to Nodejs - Mitchell 
 
-v0.1.0 released by Justin Mitchell
+rev1.0 released by Justin Mitchell
