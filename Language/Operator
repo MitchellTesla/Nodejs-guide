@@ -1,0 +1,10 @@
+The ternary operator
+
+var isCat = true;
+var pet = isCat ? "cat" : "dog";
+console.log(pet);
+The code above generates the following result.
+
+
+Bitwise operations
+Bitwise operations are supported in JavaScript: & (and), | (or), ~(inverse), and ^ (xor) operators
