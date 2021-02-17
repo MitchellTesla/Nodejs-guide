@@ -1,0 +1,78 @@
+To create arrays, you can either use traditional notation or array literal syntax :
+
+var arr1 = new Array();
+var arr2 = [];
+As with objects, the literal syntax version is preferred.
+
+We can test if an object is an array using the Array.isArray function:
+
+var arr2 = [];
+Array.isArray(arr2);
+Array.isArray({});
+We can create arrays quite easily in JavaScript using [].
+
+Arrays have many useful functions.
+
+
+var myData = []; 
+// w  ww. j a va  2  s.  c  o  m
+myData.push(1); // add at the end 
+console.log(myData); // prints [1] 
+
+myData.unshift(2); // add to the top 
+console.log(myData); // prints [2,1] 
+
+// Arrays are zero index based: 
+console.log(myData[0]); // prints 2 
+
+
+Example
+The array type in JavaScript length property returns the element count.
+
+
+var arr2 = [];
+arr2.length;
+console.log(arr2);
+var arr3 = [ 'cat', 'rat', 'bat' ];
+console.log(arr3.length);
+
+By default, arrays in JavaScript are numerically indexed:
+
+
+var arr3 = [ 'cat', 'rat', 'bat' ];
+for (var i = 0; i < arr3.length; i++) {
+    console.log(arr3[i]);
+}
+
+
+To add an item to the end of an array, you can do one of two things:
+
+
+var arr3 = [ 'cat', 'rat', 'bat' ];
+arr3.push("mat");
+console.log(arr3);
+arr3[arr3.length] = "fat";
+console.log(arr3);
+
+
+We can specify the index of the element where you want to insert a new element.
+
+If this element is past the last element, the elements in between are created and initialized with the value undefined :
+
+
+var arr3 = [ 'cat', 'rat', 'bat' ];
+arr3[20] = "splat";
+console.log(arr3);
+
+
+Note
+To delete an item from an array, use the splice function, which takes an index and the number of items to delete.
+
+What it returns is an array with the extracted items, and the original array is modified such that they no longer exist there:
+
+
+var arr3 = [ 'cat', 'rat', 'bat', 'cat', 'rat', 'bat' ];
+arr3.splice(2, 2);
+console.log(arr3);
+console.log(arr3.length);
+
