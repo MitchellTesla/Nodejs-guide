@@ -1,0 +1,41 @@
+The util module contains a number of useful functions.
+
+We can access the util module using a require('util') call.
+
+To log out something to the console with a timestamp, you can use the util.log function.
+
+
+var util = require('util'); 
+util.log('sample message');
+
+
+util.format
+util.format function is similar to the C/C++ printf function.
+
+The first argument is a string that contains zero or more placeholders.
+
+Each placeholder is then replaced using the remaining arguments based on the meaning of the placeholder.
+
+Popular placeholders are %s (used for strings) and %d (used for numbers).
+
+
+var util = require('util'); 
+var name = 'CSS'; 
+var a = 33; 
+
+console.log(util.format('%s has %d attributes', name, a)); 
+
+
+Note
+util has a few functions to check if something is of a particular type (isArray, isDate, isError).
+
+
+var util = require('util'); 
+console.log(util.isArray([])); // true 
+console.log(util.isArray({ length: 0 })); // false 
+//from w  w  w .  j a  va2  s.  c o  m
+console.log(util.isDate(new Date())); // true 
+console.log(util.isDate({})); // false 
+
+console.log(util.isError(new Error('This is an error'))); // true 
+console.log(util.isError({ message: 'I have a message' })); // false 
