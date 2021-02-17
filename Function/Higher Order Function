@@ -1,0 +1,117 @@
+Immediately Executing Function
+We can execute a function immediately after you define it.
+
+Simply wrap the function in parentheses () and invoke it.
+
+
+(function myData() {
+   console.log('myData was executed!'); 
+})(); 
+An immediately executing function creates a new variable scope.
+
+An if, else, or while does not create a new variable scope in JavaScript.
+
+
+var myData = 123; 
+if (true) {
+   var myData = 456; 
+} 
+console.log(myData); // 456; 
+
+The only recommended way of creating a new variable scope in JavaScript is using a function.
+
+The following code shows how to create a new variable scope with an immediately executing function.
+
+
+var myData = 123; 
+if (true) { 
+    (function () { // create a new scope 
+        var myData = 456;
+     })(); 
+} 
+console.log(myData); // 123; 
+
+
+Anonymous Function
+A function without a name is called an anonymous function.
+
+In JavaScript, you can assign a function to a variable.
+
+If you are going to use a function as a variable, you don't need to name the function.
+
+The following code shows two ways of defining a function inline.
+
+Both of these methods are equivalent.
+
+
+var foo1 = function namedFunction() {
+   console.log('foo1'); 
+} /*w  w w .  j  ava 2s.  c o  m*/
+foo1(); // foo1 
+
+var foo2 = function () { // no function name i.e. anonymous function
+   console.log('foo2'); 
+} 
+foo2(); // foo2 
+
+A programming language is said to have first-class functions if a function can be treated the same way as any other variable in the language.
+
+JavaScript has first-class functions.
+
+
+Higher-Order Functions
+Since JavaScript allows us to assign functions to variables, we can pass functions to other functions.
+
+Functions that take functions as arguments are called higher-order functions.
+
+A very common example of a higher-order function is setTimeout.
+
+The following code shows how to use setTimeout function.
+
+
+setTimeout(function () {
+    console.log('2000 milliseconds have passed since this demo started'); 
+}, 2000); 
+If you run this application in Node.js, you will see the console.log message after two seconds and then the application will exit.
+
+We used an anonymous function as the first argument to setTimeout.
+
+This makes setTimeout a higher-order function.
+
+We can create a function and passing that in.
+
+
+function foo() {
+    console.log('2000 milliseconds have passed since this demo started'); 
+}
+setTimeout(foo, 2000); 
+Closures
+If there is a function defined inside another function, the inner function has access to the variables declared in the outer function.
+
+The variables in the outer function have been closed by the inner function.
+
+The concept in itself is simple enough and fairly intuitive.
+
+
+function outerFunction(arg) { 
+    var variableInOuterFunction = arg;
+    function myValue() { 
+       console.log(variableInOuterFunction);
+    }
+    myValue(); 
+} 
+outerFunction('hello closure!'); // logs hello closure! 
+
+The inner function can access the variables from the outer scope even after the outer function has returned.
+
+Because the variables are still bound in the inner function and not dependent on the outer function.
+
+
+function outerFunction(arg) {
+    var variableInOuterFunction = arg;
+    return function () {
+       console.log(variableInOuterFunction); 
+    } 
+} 
+var innerFunction = outerFunction('hello closure!'); 
+innerFunction();
