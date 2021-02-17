@@ -1,0 +1,53 @@
+Streams in Node.js are based on events.
+
+All of these stream classes inherit from a base abstract Stream class, which inherits from EventEmitter.
+
+
+var stream = require('stream'); 
+var EventEmitter = require('events').EventEmitter; 
+
+console.log(new stream.Stream() instanceof EventEmitter); // true 
+console.log(new stream.Readable({}) instanceof stream.Stream); // true 
+console.log(new stream.Writable({}) instanceof stream.Stream); // true 
+console.log(new stream.Duplex({}) instanceof stream.Stream); // true 
+console.log(new stream.Transform({}) instanceof stream.Stream); // true 
+
+The code above generates the following result.
+
+
+
+
+
+ 
+
+Pipe
+All the streams support a pipe operation that can be done using the pipe member function.
+
+This function is called pipe because it mimics the behavior of the command line pipe operator, for example, cat file.txt | grep yourtest
+
+The fs core module provides utility functions to create readable or writable streams from a file.
+
+The following code shows how to stream a file from the file system to the user console.
+
+
+var fs = require('fs'); 
+// Create readable stream 
+var readableStream = fs.createReadStream('./a.js'); 
+// Pipe it to stdout 
+readableStream.pipe(process.stdout); 
+You can also chain multiple streams using pipe.
+
+The following code creates a read stream from a file, pipes it through a zip transform stream, and then pipes it to a writable file stream.
+
+This creates a zip file on the file system.
+
+
+var fs = require('fs'); 
+var gzip = require('zlib').createGzip(); 
+
+var inp = fs.createReadStream('a.js'); 
+var out = fs.createWriteStream('a.js.gz'); 
+
+// Pipe chain 
+inp.pipe(gzip).pipe(out); 
+Streams in Node.js are based on events
