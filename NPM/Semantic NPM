@@ -1,0 +1,78 @@
+You can tell NPM which version of a package you want.
+
+Example
+For example, the following code installs the exact version 1.0.3 of underscore. underscore is a package installed.
+
+$ npm install underscore@1.0.3
+You can tell NPM that you are okay with all patch versions of 1.0 using a tilde "~":
+
+$ npm install underscore@"~1.0.0"
+To tell NPM that you are okay with any minor version changes use "^":
+
+$ npm install underscore@"^1.0.0"
+Other version string operators supported include ">=" and ">", which have intuitive mathematical meanings, such as ">=1.4.2".
+
+Similarly there are "<=" and "<" , for example, "<1.4.2".
+
+There is also a * that can be used at various locations to match any number such as 1.0.*.
+
+For example, 1.0.0, 1.0.1, and so on or 1.*, for example, 1.1.0, 1.3.4, and so on and simply *, which will get you the latest version every time.
+
+You can use these semantic version strings in package.json as well.
+
+Updating Dependencies
+The following package.json tells NPM that your package is compatible with any minor upgrade on v1.6.0 of underscore:
+
+"dependencies": { 
+    "underscore": "^1.6.0" 
+} 
+Whenever you use --save flag, the default that NPM uses for updating package.json dependencies section is "^", preceded by the downloaded version.
+
+The following command can get a package.json dependencies section:
+
+$ npm install request@1.0.0 -save 
+Following is the default version string added to package.json:
+
+"dependencies": { 
+    "request": "^1.0.0" 
+} 
+To find the latest online version that is compatible with the current semantic version specified in package.json (in this example ^1.0.0), you can run npm outdated.
+
+The following code uses npm outdated to Check Latest Version of Packages
+
+$ npm outdated 
+npm http GET https://registry.npmjs.org/request 
+npm http 304 https://registry.npmjs.org/request 
+Package Current Wanted Latest Location 
+request 1.0.0 1.9.9 2.34.0 request 
+To update these packages to the newest compatible version and save the results into your package.json, you can simply run the following command.
+
+$ npm update -save
+The Updated package.json
+
+"dependencies": { 
+    "request": "^1.9.9" 
+} 
+
+
+Updating Packages
+To determine if your package is out of date, issue command npm outdated in your project directory.
+
+npm outdated
+npm outdated checks all of the local packages.
+
+To check individual packages, specify their names.
+
+To check global packages, use the -g option.
+
+To update any outdated local packages, use the npm update command.
+
+Update works on all local packages by default.
+
+To update individual modules, specify their names.
+
+To update global packages use the -g option.
+
+The following code uses npm updates itself with the -g option.
+
+npm update npm -g
