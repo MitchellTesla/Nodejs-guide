@@ -1,0 +1,81 @@
+The util core module (require('utils')) provides a function to create the prototype chain.
+
+The function is called inherits and takes a child class followed by parent class.
+
+
+var inherits = require('util').inherits; 
+/*w w  w  .  ja v a  2s  . c  om*/
+function Car(n){
+    this.name = n;
+}
+Car.prototype.drive= function (destination) { 
+    console.log(this.name, 'can drive to', destination); 
+} 
+
+function FlyingCar(name) { 
+    // Call parent constructor 
+    Car.call(this, name);
+    // Additional construction code 
+} 
+inherits(FlyingCar, Car); 
+
+// Additional member functions 
+FlyingCar.prototype.fly = function (destination) { 
+    console.log(this.name, 'can fly to', destination); 
+} 
+
+var bird = new FlyingCar('XXX'); 
+bird.drive('New York'); 
+bird.fly('Seattle');
+
+
+Overriding Functions in Child Classes
+To override parent functions but still utilize some of the original functionality, simply do the following:
+
+Create a function on the child prototype with the same name.
+
+Call the parent function similar to the way we called the parent constructor, basically using the
+
+Parent.prototype.memberfunction.call(this, /*any original args*/) syntax. 
+
+// w ww. j  a  v  a 2  s .c o m
+
+// util function 
+var inherits = require('util').inherits; 
+// Base 
+function Base() { 
+   this.message = "message"; 
+}; 
+Base.prototype.foo = function () { 
+   return this.message + " base foo" 
+}; 
+
+
+// Child 
+function Child() { Base.call(this); }; 
+inherits(Child, Base); 
+
+// Overide parent behaviour in child 
+Child.prototype.foo = function () { 
+    // Call base implementation + customize 
+    return Base.prototype.foo.call(this) + " child foo"; 
+} 
+
+// Test: 
+var child = new Child(); 
+console.log(child.foo()); // message base foo child foo 
+
+
+
+Checking Inheritance Chain
+
+var inherits = require('util').inherits; 
+/*from   www.j  av a 2  s . co  m*/
+function A() { } 
+function B() { }; inherits(B, A); 
+function C() { } 
+
+var b = new B(); 
+console.log(b instanceof B); // true because b.__proto__ == B.prototype 
+console.log(b instanceof A); // true because b.__proto__.__proto__ == A.prototype 
+console.log(b instanceof C); // false 
