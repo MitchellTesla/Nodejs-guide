@@ -1,0 +1,106 @@
+Serving Base HTML
+The following section shows how we can create a simple web server that returns HTML files from a folder.
+
+Create a simple HTML file, called index.html, that we plan to return on every request to GET '/' on the server.
+
+ 
+
+    
+ 
+
+   You are looking lovely! 
+ 
+ 
+The following code shows how to serve static html file to the client.
+
+
+var http = require('http'); 
+var fs = require('fs'); 
+//from w w w  . j  ava 2s. c o m
+function send404(response) { 
+    response.writeHead(404, { 'Content-Type': 'text/plain' }); 
+    response.write('Error 404: Resource not found.'); 
+    response.end(); 
+} 
+
+var server = http.createServer(function (req, res) { 
+    if (req.method == 'GET' && req.url == '/') { 
+        res.writeHead(200, { 'content-type': 'text/html' }); 
+        fs.createReadStream('./public/index.html').pipe(res); 
+    } else { 
+        send404(res); 
+    } 
+}).listen(3000); 
+
+console.log('server running on port 3000'); 
+If you start the server (run node server.js ) and open your browser at http://localhost:3000, you will see the HTML page we created earlier.
+
+
+
+
+ 
+
+Serving a Directory
+First, create a simple client-side JavaScript file that appends to the body after HTML loading is complete.
+
+We plan to request this JavaScript file from the server.
+
+window.onload = function () { 
+    document.body.innerHTML += 'Talk JavaScript with me'; 
+}
+Modify our simple HTML file by adding a script tag in the <head> to load a client-side JavaScript file
+
+ 
+To support this JavaScript loading, we need to use the path module to resolve the path to the file on the file system based on the request.url property.
+
+We also need to see if we have a MIME type registered for the file type requested.
+
+We have to make sure the file exists before we try to read it from the file system.
+
+Here is the source code for serving a folder to the client.
+
+
+var http = require('http'); 
+var fs = require('fs'); 
+var path = require('path'); 
+//  w  w  w.j a  va  2s.co  m
+function send404(response) { 
+    response.writeHead(404, { 'Content-Type': 'text/plain' }); 
+    response.write('Error 404: Resource not found.'); 
+    response.end(); 
+} 
+
+var mimeLookup = { 
+    '.js': 'application/javascript', 
+    '.html': 'text/html' 
+}; 
+
+var server = http.createServer(function (req, res) {
+    if (req.method == 'GET') { 
+         var fileurl; 
+        if (req.url == '/') 
+           fileurl = '/index.html'; 
+        else 
+           fileurl = req.url; 
+        var filepath = path.resolve('./public' + fileurl); 
+
+        var fileExt = path.extname(filepath); 
+        var mimeType = mimeLookup[fileExt]; 
+        if (!mimeType) { 
+            send404(res); 
+            return;
+        }
+        fs.exists(filepath, function (exists) {
+            if (!exists) {
+                send404(res); 
+                return; 
+            };
+            res.writeHead(200, { 'content-type': mimeType }); 
+            fs.createReadStream(filepath).pipe(res);
+         }); 
+     } else {
+         send404(res);
+     } 
+}).listen(3000); 
+
+console.log('server running on port 3000');
