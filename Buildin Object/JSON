@@ -1,0 +1,28 @@
+JSON, or JavaScript Object Notation is the data exchange format.
+
+JSON is similar to object literal notation with two key differences.
+
+In object literal notation, wrapping the property names in single or double quotation marks is optional, in JSON it is mandatory.
+
+Example
+All strings should be double-quoted in JSON as follows:
+
+
+// valid object literal notation, INVALID JSON:
+var obj = {
+   // JSON strings are supposed to use ", not '
+   "first_name": 'HTML',
+   // Must wrap property names for JSON
+   last_name: "CSS"
+}/*from w w  w  .  java  2 s.c  om*/
+
+// valid JSON and object literal notation:
+var obj = {
+   "first_name": "HTML",
+   "last_name": "CSS"
+}
+
+Note
+To generate JSON, we can use the V8 Javascript functions JSON.parse and JSON.stringify.
+
+The former takes a JSON string and converts it to an object, while the latter takes an object and returns a JSON string representation of it.
