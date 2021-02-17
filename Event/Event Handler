@@ -1,0 +1,131 @@
+Listener Management
+EventEmitter has a member function, listeners, that takes an event name and returns all the listeners subscribed to that event.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+
+emitter.on('foo', function a() { }); 
+emitter.on('foo', function b() { }); 
+
+console.log(emitter.listeners('foo')); // [ [Function: a], [Function: b] ] 
+
+EventEmitter instances also raise a `newListener` event whenever a new listener is added and `removeListener` whenever a listener is removed.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+/*w  w w .  j av  a2s.  co  m*/
+// Listener addition / removal notifications 
+emitter.on('removeListener', function (eventName, listenerFunction) {
+     console.log(eventName, 'listener removed', listenerFunction.name); 
+}); 
+emitter.on('newListener', function (eventName, listenerFunction) {
+     console.log(eventName, 'listener added', listenerFunction.name); 
+}); 
+
+function a() { } 
+function b() { } 
+
+// Add 
+emitter.on('foo', a); 
+emitter.on('foo', b); 
+
+// Remove 
+emitter.removeListener('foo', a); 
+emitter.removeListener('foo', b); 
+
+
+
+ 
+
+EventEmitter Listener Count
+By default, EventEmitter will tolerate 10 listeners for each event type-anymore and it will print a warning to the console.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+/*w  w w  . j av a  2  s  .  c om*/
+var listenersCalled = 0; 
+
+function someCallback() {
+   // Add a listener
+    emitter.on('foo', function () { listenersCalled++ });
+    // return from callback 
+} 
+
+for (var i = 0; i < 20; i++) {
+   someCallback(); 
+} 
+emitter.emit('foo'); 
+console.log('listeners called:', listenersCalled); // 20 
+
+There are cases where having more than 10 listeners is a valid scenario.
+
+In such cases, you can increase a limit for this warning using the setMaxListeners member function.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+/* ww w. java 2  s  . c  om*/
+// increase limit to 30 
+emitter.setMaxListeners(30); 
+
+// subscribe 20 times 
+// No warning will be printed 
+for (var i = 0; i < 20; i++) {
+    emitter.on('foo', function () { }); 
+} 
+console.log('done'); 
+
+
+
+ 
+
+Error Event
+An 'error' event is treated as a special exceptional case in Node.js.
+
+If there is no listener for it, then the default action is to print a stack trace and exit the program.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var emitter = new EventEmitter(); 
+
+// Emit an error event 
+// Since there is no listener for this event the process terminates 
+emitter.emit('error', new Error('Something horrible happened')); 
+
+console.log('this line never executes'); 
+You should use an Error object if you ever need to raise an error event.
+
+You can also see from the example that the last line containing the console.log never executes as the process terminated.
+
+Creating Your Own Event Emitters
+A number of libraries export classes that inherit from EventEmitter and follow the same event handling mechanism.
+
+We can extend EventEmitter and create a public class that has all of the functionality of EventEmitter.
+
+All you need to do to create your own EventEmitter is call the EventEmitter constructor from your class's constructor and use the util.inherits function to set up the prototype chain.
+
+
+var EventEmitter = require('events').EventEmitter; 
+var inherits = require('util').inherits; 
+/*w w w  .  j a  v  a  2s.  c o  m*/
+// Custom class 
+function Foo() { 
+    EventEmitter.call(this); 
+} 
+inherits(Foo, EventEmitter); 
+
+// Sample member function that raises an event 
+Foo.prototype.connect = function () { 
+    this.emit('connected'); 
+} 
+
+// Usage 
+var foo = new Foo(); 
+foo.on('connected', function () {
+     console.log('connected raised!'); 
+}); 
+foo.connect(); 
+You can see that usage of your class is exactly the same as if it was an EventEmitter.
